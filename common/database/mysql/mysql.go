@@ -1,0 +1,31 @@
+package mysql
+
+import (
+	"context"
+
+	"github.com/indexer3/ethereum-lake/constant/config"
+	"github.com/indexer3/ethereum-lake/common/database"
+	"github.com/spf13/viper"
+	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
+)
+
+var _ database.IDatabase = (*MySQL)(nil)
+
+type MySQL struct {
+	db *gorm.DB
+}
+
+func (m *MySQL) Open(ctx context.Context, connectionConfig database.ConnectionConfig) (database.IDatabase, error) {
+	return nil, nil
+}
+
+func (m *MySQL) BatchWrite(ctx context.Context, tableName string, chunks []any) error {
+	batchSize := viper.GetInt(config.MySQLBatchWriteSize)
+
+	return m.db.Clauses(clause.OnConflict{UpdateAll: true}).CreateInBatches(chunks, batchSize).Error
+}
+
+func (m *MySQL) Query(ctx context.Context, statement string, args ...any) ([]any, error) {
+	return nil, nil
+}

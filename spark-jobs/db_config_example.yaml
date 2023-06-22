@@ -1,0 +1,8 @@
+clickhouse:
+  host: "127.0.0.1"
+  port: "9000"
+  password: "password"
+  database: "database"
+  
+tidb:
+  
