@@ -21,3 +21,5 @@
 go.work
 
 build/
+.vscode
+.idea
