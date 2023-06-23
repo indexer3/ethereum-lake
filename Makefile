@@ -1,5 +1,7 @@
 .PHONY: build
 
+generate: 
+	go generate ./contracts/...
 
 build: 
 	go build -o build/ethereum-lake .
