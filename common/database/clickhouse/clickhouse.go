@@ -3,7 +3,9 @@ package clickhouse
 import (
 	"context"
 	"fmt"
+	"time"
 
+	"github.com/ClickHouse/clickhouse-go/v2"
 	"github.com/ClickHouse/clickhouse-go/v2/lib/driver"
 	"github.com/indexer3/ethereum-lake/common/database"
 	"github.com/indexer3/ethereum-lake/common/log"
@@ -13,14 +15,51 @@ import (
 	"go.uber.org/zap"
 )
 
-var _ database.IDatabase = (*ClickHouse)(nil)
+var _ database.IDatabase[driver.Conn] = (*ClickHouse)(nil)
 
 type ClickHouse struct {
 	db driver.Conn
 }
 
-func (c *ClickHouse) Open(ctx context.Context, connectionConfig database.ConnectionConfig) (database.IDatabase, error) {
-	return nil, nil
+func (c *ClickHouse) Open(ctx context.Context, connectionConfig database.ConnectionConfig) (database.IDatabase[driver.Conn], error) {
+	conn, err := clickhouse.Open(&clickhouse.Options{
+		Addr: []string{
+			fmt.Sprintf("%s:%s", connectionConfig.Host, connectionConfig.Port),
+		},
+		Auth: clickhouse.Auth{
+			Database: connectionConfig.Database,
+			Username: connectionConfig.Username,
+			Password: connectionConfig.Password,
+		},
+		ClientInfo: clickhouse.ClientInfo{
+			Products: []struct {
+				Name    string
+				Version string
+			}{{
+				Name:    "ethereum-lake[clickhouse]",
+				Version: "v0.0.0",
+			}},
+		},
+		Debugf: func(format string, v ...any) {
+			log.Info("ethereum-lake[clickhouse info]", zap.Any("info", fmt.Sprintf(format, v)))
+		},
+		Debug:           false,
+		DialTimeout:     time.Minute * 10,
+		MaxOpenConns:    50,
+		MaxIdleConns:    50,
+		ConnMaxLifetime: time.Hour * 48,
+	})
+	if err != nil {
+		log.Error("failed to connect to clickhouse", zap.Error(err))
+		return nil, err
+	}
+
+	if err := conn.Ping(ctx); err != nil {
+		log.Error("failed to ping clickhouse", zap.Error(err))
+		return nil, err
+	}
+
+	return &ClickHouse{db: conn}, nil
 }
 
 func (c *ClickHouse) BatchWrite(ctx context.Context, tableName string, dataArr []any) error {
@@ -51,6 +90,6 @@ func (c *ClickHouse) BatchWrite(ctx context.Context, tableName string, dataArr [
 	return nil
 }
 
-func (c *ClickHouse) Query(ctx context.Context, statement string, args ...any) ([]any, error) {
-	return nil, nil
+func (c *ClickHouse) Connection() driver.Conn {
+	return c.db
 }

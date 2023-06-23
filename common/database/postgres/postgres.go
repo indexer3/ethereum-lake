@@ -10,13 +10,13 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-var _ database.IDatabase = (*Postgres)(nil)
+var _ database.IDatabase[*gorm.DB] = (*Postgres)(nil)
 
 type Postgres struct {
 	db *gorm.DB
 }
 
-func (p *Postgres) Open(ctx context.Context, connectionConfig database.ConnectionConfig) (database.IDatabase, error) {
+func (p *Postgres) Open(ctx context.Context, connectionConfig database.ConnectionConfig) (database.IDatabase[*gorm.DB], error) {
 	return nil, nil
 }
 
@@ -26,6 +26,6 @@ func (p *Postgres) BatchWrite(ctx context.Context, tableName string, chunks []an
 	return p.db.Clauses(clause.OnConflict{UpdateAll: true}).CreateInBatches(chunks, batchSize).Error
 }
 
-func (p *Postgres) Query(ctx context.Context, statement string, args ...any) ([]any, error) {
-	return nil, nil
+func (p *Postgres) Connection() *gorm.DB {
+	return p.db
 }

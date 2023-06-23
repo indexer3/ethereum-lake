@@ -12,8 +12,8 @@ const (
 	MySQL      DatabaseType = "MYSQL"
 )
 
-type IDatabase interface {
-	Open(ctx context.Context, connectionConfig ConnectionConfig) (IDatabase, error)
+type IDatabase[Conn any] interface {
+	Open(ctx context.Context, connectionConfig ConnectionConfig) (IDatabase[Conn], error)
 	BatchWrite(ctx context.Context, tableName string, chunks []any) error
-	Query(ctx context.Context, statement string, args ...any) ([]any, error)
+	Connection() Conn
 }
