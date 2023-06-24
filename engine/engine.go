@@ -1,6 +1,10 @@
 package engine
 
-import "context"
+import (
+	"context"
+
+	"github.com/indexer3/ethereum-lake/common/database"
+)
 
 type IEngine interface {
 	Start(ctx context.Context) error
@@ -8,6 +12,17 @@ type IEngine interface {
 }
 
 type Engine struct {
+	dbs []database.IDatabase
+}
+
+func NewLakeEngine(dbs []database.IDatabase) IEngine {
+	return &Engine{
+		dbs: dbs,
+	}
+}
+
+func (e *Engine) AddTask(task ITask) {
+
 }
 
 func (e *Engine) Start(ctx context.Context) error {

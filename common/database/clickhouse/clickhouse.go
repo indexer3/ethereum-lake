@@ -15,13 +15,13 @@ import (
 	"go.uber.org/zap"
 )
 
-var _ database.IDatabase[driver.Conn] = (*ClickHouse)(nil)
+var _ database.IDatabase = (*ClickHouse)(nil)
 
 type ClickHouse struct {
 	db driver.Conn
 }
 
-func (c *ClickHouse) Open(ctx context.Context, connectionConfig database.ConnectionConfig) (database.IDatabase[driver.Conn], error) {
+func Open(ctx context.Context, connectionConfig database.ConnectionConfig) (*ClickHouse, error) {
 	conn, err := clickhouse.Open(&clickhouse.Options{
 		Addr: []string{
 			fmt.Sprintf("%s:%s", connectionConfig.Host, connectionConfig.Port),
@@ -90,6 +90,6 @@ func (c *ClickHouse) BatchWrite(ctx context.Context, tableName string, dataArr [
 	return nil
 }
 
-func (c *ClickHouse) Connection() driver.Conn {
+func (c *ClickHouse) Connection() any {
 	return c.db
 }

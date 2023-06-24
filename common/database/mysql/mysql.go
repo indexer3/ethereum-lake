@@ -10,13 +10,13 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-var _ database.IDatabase[*gorm.DB] = (*MySQL)(nil)
+var _ database.IDatabase = (*MySQL)(nil)
 
 type MySQL struct {
 	db *gorm.DB
 }
 
-func (m *MySQL) Open(ctx context.Context, connectionConfig database.ConnectionConfig) (database.IDatabase[*gorm.DB], error) {
+func Open(ctx context.Context, connectionConfig database.ConnectionConfig) (database.IDatabase, error) {
 	return nil, nil
 }
 
@@ -26,6 +26,6 @@ func (m *MySQL) BatchWrite(ctx context.Context, tableName string, chunks []any) 
 	return m.db.Clauses(clause.OnConflict{UpdateAll: true}).CreateInBatches(chunks, batchSize).Error
 }
 
-func (m *MySQL) Connection() *gorm.DB {
+func (m *MySQL) Connection() any {
 	return m.db
 }

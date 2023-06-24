@@ -3,6 +3,7 @@ package database
 import "fmt"
 
 type ConnectionConfig struct {
+	DBType   DatabaseType
 	Host     string
 	Port     string
 	Username string
@@ -10,8 +11,8 @@ type ConnectionConfig struct {
 	Database string
 }
 
-func (c ConnectionConfig) DSN(dbType DatabaseType) (string, error) {
-	switch dbType {
+func (c ConnectionConfig) DSN() (string, error) {
+	switch c.DBType {
 	case ClickHouse:
 		return fmt.Sprintf("tcp://%s:%s@%s:%s?database=%s", c.Username, c.Password, c.Host, c.Port, c.Database), nil
 	case Postgres:
