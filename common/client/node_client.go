@@ -6,16 +6,16 @@ import (
 	"time"
 
 	"github.com/ethereum/go-ethereum/accounts/abi"
-	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/ethereum/go-ethereum/rpc"
+	"github.com/indexer3/ethereum-lake/contracts"
 )
 
 type NodeClient struct {
 	ethClients   []*wrapClient
 	limitChan    chan struct{}
 	mu           sync.RWMutex
-	contractAbis map[common.Address]*abi.ABI
+	contractAbis map[contracts.ContractType]*abi.ABI
 }
 
 type wrapClient struct {
@@ -52,14 +52,14 @@ func NewNodeClientsWithEndpoints(endpoints []string) (*NodeClient, error) {
 		ethClients:   ethClients,
 		limitChan:    make(chan struct{}, 10),
 		mu:           sync.RWMutex{},
-		contractAbis: make(map[common.Address]*abi.ABI),
+		contractAbis: make(map[contracts.ContractType]*abi.ABI),
 	}, nil
 }
 
-func (n *NodeClient) RegisterContractABI(contractAddress common.Address, abi *abi.ABI) {
+func (n *NodeClient) RegisterContractABI(contractType contracts.ContractType, abi *abi.ABI) {
 	n.mu.Lock()
 	defer n.mu.Unlock()
-	n.contractAbis[contractAddress] = abi
+	n.contractAbis[contractType] = abi
 }
 
 func (c *NodeClient) Client() *wrapClient {

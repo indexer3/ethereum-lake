@@ -8,6 +8,7 @@ import (
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
+	"github.com/indexer3/ethereum-lake/contracts"
 	"github.com/indexer3/ethereum-lake/contracts/multicall"
 
 	"github.com/samber/lo"
@@ -27,7 +28,7 @@ func (n *NodeClient) AggregatedCalls(ctx context.Context, calls []multicall.Mult
 
 	n.mu.RLock()
 	defer n.mu.Unlock()
-	calldata, err := n.contractAbis[multicall.Multicall3Address].Pack("aggregate3", calls)
+	calldata, err := n.contractAbis[contracts.ContractTypeMulticall].Pack("aggregate3", calls)
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +44,7 @@ func (n *NodeClient) AggregatedCalls(ctx context.Context, calls []multicall.Mult
 	}
 
 	var results []multicall.Multicall3Result
-	if err := n.contractAbis[multicall.Multicall3Address].UnpackIntoInterface(&results, "aggregate3", res); err != nil {
+	if err := n.contractAbis[contracts.ContractTypeMulticall].UnpackIntoInterface(&results, "aggregate3", res); err != nil {
 		return nil, err
 	}
 
@@ -61,9 +62,7 @@ func (n *NodeClient) Call(ctx context.Context, callParam CallParam) ([]byte, err
 		blockNumber string
 	)
 
-	if callParam.BlockNumber != nil {
-		blockNumber = hexutil.EncodeBig(callParam.BlockNumber)
-	}
+	blockNumber = lo.If[string](callParam.BlockNumber == nil, "latest").Else(hexutil.EncodeBig(callParam.BlockNumber))
 
 	err := cli.RPCClient().CallContext(ctx, &_res, "eth_call", callParam, blockNumber)
 	if err != nil {
