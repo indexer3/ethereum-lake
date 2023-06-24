@@ -20,4 +20,7 @@ const (
 	PostgresUser           = "postgres-user"
 	PostgresPassword       = "postgres-password"
 	PostgresBatchWriteSize = "postgres-batch-write-size"
+
+	StartCursor = "start-cursor"
+	EndCursor   = "end-cursor"
 )
