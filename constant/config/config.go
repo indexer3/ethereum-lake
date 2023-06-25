@@ -21,6 +21,7 @@ const (
 	PostgresPassword       = "postgres-password"
 	PostgresBatchWriteSize = "postgres-batch-write-size"
 
-	StartCursor = "start-cursor"
-	EndCursor   = "end-cursor"
+	StartCursor     = "start-cursor"
+	EndCursor       = "end-cursor"
+	TaskChannelSize = "task-channel-size"
 )
