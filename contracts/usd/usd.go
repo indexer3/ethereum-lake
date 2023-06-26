@@ -30,3 +30,20 @@ func USDAddress(network constant.Network) common.Address {
 		return usdtAddressInEthereum
 	}
 }
+
+func USDDecimals(network constant.Network) uint8 {
+	switch network {
+	case constant.NetworkEthereum:
+		return constant.USDTDecimalsInEthereum
+	case constant.NetworkPolygon:
+		return constant.USDTDecimalsInPolygon
+	case constant.NetworkArbitrumOne:
+		return constant.USDTDecimalsInArbitrum
+	case constant.NetworkOptimism:
+		return constant.USDTDecimalsInOptimism
+	case constant.NetworkBSC:
+		return constant.BUSDDecimalsInBSC
+	default:
+		return constant.USDTDecimalsInEthereum
+	}
+}
