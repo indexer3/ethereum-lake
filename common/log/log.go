@@ -61,6 +61,12 @@ func Error(msg string, fields ...zap.Field) {
 	gl.Error(msg, fields...)
 }
 
+// Fatal wraps the zap logger's Error method.
+
+func Fatal(msg string, fields ...zap.Field) {
+	gl.Fatal(msg, fields...)
+}
+
 // Sync wraps the zap Logger's Sync method.
 func Sync() {
 	_ = gl.Sync()
