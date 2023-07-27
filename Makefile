@@ -1,6 +1,7 @@
 .PHONY: build
 
 generate: 
+	@echo "Generating..."
 	go generate ./contracts/...
 
 build: 

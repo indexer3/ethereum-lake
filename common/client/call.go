@@ -38,7 +38,7 @@ func (n *NodeClient) AggregatedCalls(ctx context.Context, calls []multicall.Mult
 		Data: calldata,
 	}
 
-	res, err := cli.ETHClient().CallContract(ctx, callMsg, nil)
+	res, err := cli.CallContract(ctx, callMsg, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +64,7 @@ func (n *NodeClient) Call(ctx context.Context, callParam CallParam) ([]byte, err
 
 	blockNumber = lo.If[string](callParam.BlockNumber == nil, "latest").Else(hexutil.EncodeBig(callParam.BlockNumber))
 
-	err := cli.RPCClient().CallContext(ctx, &_res, "eth_call", callParam, blockNumber)
+	err := cli.Client().CallContext(ctx, &_res, "eth_call", callParam, blockNumber)
 	if err != nil {
 		return nil, err
 	}

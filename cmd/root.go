@@ -7,7 +7,7 @@ import (
 
 var RootCommand = &cobra.Command{
 	Use:   constant.LakeCommandName,
-	Short: "etl command",
+	Short: "etl-command",
 }
 
 func init() {

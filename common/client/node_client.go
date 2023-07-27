@@ -7,46 +7,24 @@ import (
 
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/ethereum/go-ethereum/rpc"
 	"github.com/indexer3/ethereum-lake/contracts"
 )
 
 type NodeClient struct {
-	ethClients   []*wrapClient
+	ethClients   []*ethclient.Client
 	limitChan    chan struct{}
 	mu           sync.RWMutex
 	contractAbis map[contracts.ContractType]*abi.ABI
 }
 
-type wrapClient struct {
-	client    *rpc.Client
-	ethclient *ethclient.Client
-}
-
-func (w *wrapClient) RPCClient() *rpc.Client {
-	return w.client
-}
-
-func (w *wrapClient) ETHClient() *ethclient.Client {
-	return w.ethclient
-}
-
 func NewNodeClientsWithEndpoints(endpoints []string) (*NodeClient, error) {
-	ethClients := make([]*wrapClient, 0)
+	ethClients := make([]*ethclient.Client, 0)
 	for _, endpoint := range endpoints {
-		callClient, err := rpc.Dial(endpoint)
-		if err != nil {
-			return nil, err
-		}
-
 		ethClient, err := ethclient.Dial(endpoint)
 		if err != nil {
 			return nil, err
 		}
-		ethClients = append(ethClients, &wrapClient{
-			client:    callClient,
-			ethclient: ethClient,
-		})
+		ethClients = append(ethClients, ethClient)
 	}
 	return &NodeClient{
 		ethClients:   ethClients,
@@ -62,7 +40,7 @@ func (n *NodeClient) RegisterContractABI(contractType contracts.ContractType, ab
 	n.contractAbis[contractType] = abi
 }
 
-func (c *NodeClient) Client() *wrapClient {
+func (c *NodeClient) Client() *ethclient.Client {
 	if len(c.ethClients) == 0 {
 		return nil
 	}

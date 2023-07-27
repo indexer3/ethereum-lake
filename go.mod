@@ -4,19 +4,18 @@ go 1.20
 
 require (
 	github.com/ClickHouse/clickhouse-go/v2 v2.10.1
+	github.com/allegro/bigcache/v3 v3.1.0
 	github.com/ethereum/go-ethereum v1.12.0
 	github.com/samber/lo v1.38.1
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.16.0
 	github.com/stretchr/testify v1.8.3
 	go.uber.org/zap v1.24.0
-	golang.org/x/sync v0.1.0
 	gorm.io/gorm v1.25.1
 )
 
 require (
 	github.com/ClickHouse/ch-go v0.52.1 // indirect
-	github.com/allegro/bigcache/v3 v3.1.0 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/btcsuite/btcd/btcec/v2 v2.2.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect

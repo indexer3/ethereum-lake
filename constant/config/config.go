@@ -1,7 +1,7 @@
 package config
 
 const (
-	RPCEndpoint = "rpc-endpoint"
+	RPCEndpoints = "rpc-endpoints"
 
 	ClickHouseHost           = "clickhouse-host"
 	ClickHousePort           = "clickhouse-port"

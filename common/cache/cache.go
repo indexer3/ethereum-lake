@@ -13,6 +13,12 @@ type CommonCache struct {
 	bigCache *bigcache.BigCache
 }
 
+var globalCache *CommonCache = NewCommonCache()
+
+func GlobalCache() *CommonCache {
+	return globalCache
+}
+
 var DefaultCacheConfig = bigcache.Config{
 	// number of shards (must be a power of 2)
 	Shards: 1024,
@@ -51,7 +57,7 @@ var DefaultCacheConfig = bigcache.Config{
 	OnRemoveWithReason: nil,
 }
 
-func NewCache() *CommonCache {
+func NewCommonCache() *CommonCache {
 	c, err := bigcache.New(context.Background(), DefaultCacheConfig)
 	if err != nil {
 		log.Fatal("failed to create cache", zap.Error(err))
@@ -64,4 +70,8 @@ func NewCache() *CommonCache {
 
 func (c *CommonCache) Set(key string, value []byte) error {
 	return c.bigCache.Set(key, value)
+}
+
+func (c *CommonCache) Get(key string) ([]byte, error) {
+	return c.bigCache.Get(key)
 }
