@@ -4,12 +4,19 @@ import (
 	"context"
 	"fmt"
 	"math/big"
+	"strings"
 
+	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
+	indexerCommon "github.com/indexer3/ethereum-lake/common"
+	"github.com/indexer3/ethereum-lake/common/log"
+	"github.com/indexer3/ethereum-lake/constant"
 	"github.com/indexer3/ethereum-lake/contracts"
 	"github.com/indexer3/ethereum-lake/contracts/multicall"
 	"github.com/indexer3/ethereum-lake/model"
+	"github.com/samber/lo"
+	"go.uber.org/zap"
 )
 
 func (n *NodeClient) AggregatedERC20Token(ctx context.Context, address common.Address) (*model.ERC20Token, error) {
@@ -180,4 +187,142 @@ func (n *NodeClient) ERC20Balance(ctx context.Context, tokenAddress, accountAddr
 	}
 
 	return balance, nil
+}
+
+func (n *NodeClient) IsERC20(ctx context.Context, address common.Address) (bool, error) {
+	c := n.Client()
+	if c == nil {
+		return false, fmt.Errorf("no client available")
+	}
+
+	code, err := c.CodeAt(ctx, address, nil)
+	if err != nil {
+		log.Error("failed to get code", zap.String("address", address.String()), zap.Error(err))
+		return false, err
+	}
+
+	methodIDs, err := indexerCommon.ParseMethodIDFromCode(code)
+	if err != nil {
+		log.Error("failed to parse method id from code", zap.String("address", address.String()), zap.Error(err))
+		return false, err
+	}
+
+	eventHashes, err := indexerCommon.ParseEventHashFromCode(code)
+	if err != nil {
+		log.Error("failed to parse event hash from code", zap.String("address", address.String()), zap.Error(err))
+		return false, err
+	}
+
+	erc20MustMethods := constant.ERC20MustMethodIDs()
+	erc20MustEvents := constant.ERC20MustEventIDs()
+
+	for methodId := range erc20MustMethods {
+		// method ID not in code
+		if !lo.Contains(methodIDs, strings.ToLower(methodId)) {
+			return false, nil
+		}
+	}
+
+	for event := range erc20MustEvents {
+		if !lo.Contains(eventHashes, strings.ToLower(event)) {
+			return false, nil
+		}
+	}
+
+	return true, nil
+}
+
+func (n *NodeClient) ERC20Meta(ctx context.Context, address common.Address) (*model.ERC20Token, error) {
+	decimalsCallData, err := contracts.ABIs[contracts.ContractTypeERC20].Pack("decimals")
+	if err != nil {
+		log.Error("failed to pack erc20 decimals calldata", zap.String("address", address.String()), zap.Error(err))
+		return nil, err
+	}
+
+	symbolCallData, err := contracts.ABIs[contracts.ContractTypeERC20].Pack("symbol")
+	if err != nil {
+		log.Error("failed to pack erc20 symbol calldata", zap.String("address", address.String()), zap.Error(err))
+		return nil, err
+	}
+
+	nameCallData, err := contracts.ABIs[contracts.ContractTypeERC20].Pack("name")
+	if err != nil {
+		log.Error("failed to pack erc20 name calldata", zap.String("address", address.String()), zap.Error(err))
+		return nil, err
+	}
+
+	calls := []multicall.Multicall3Call3{
+		{
+			Target:       address,
+			AllowFailure: false,
+			CallData:     decimalsCallData,
+		},
+		{
+			Target:       address,
+			AllowFailure: false,
+			CallData:     symbolCallData,
+		},
+		{
+			Target:       address,
+			AllowFailure: false,
+			CallData:     nameCallData,
+		},
+	}
+
+	calldata, err := contracts.ABIs[contracts.ContractTypeMulticall].Pack("aggregate3", calls)
+	if err != nil {
+		log.Error("failed to pack multicall aggregate3 calldata", zap.String("address", address.String()), zap.Error(err))
+		return nil, err
+	}
+
+	resultBytes, err := n.Client().CallContract(ctx, ethereum.CallMsg{
+		To:   lo.ToPtr(multicall.Multicall3Address),
+		Data: calldata,
+	}, nil)
+	if err != nil {
+		log.Error("failed to call multicall aggregate3", zap.String("address", address.String()), zap.Error(err))
+		return nil, err
+	}
+
+	var results []multicall.Multicall3Result
+	err = contracts.ABIs[contracts.ContractTypeMulticall].UnpackIntoInterface(&results, "aggregate3", resultBytes)
+	if err != nil {
+		log.Error("failed to unpack multicall aggregate3 result", zap.String("address", address.String()), zap.Error(err))
+		return nil, err
+	}
+
+	if len(results) != 3 {
+		log.Error("failed to unpack multicall aggregate3 result", zap.String("address", address.String()), zap.Error(err))
+		return nil, err
+	}
+
+	for i, res := range results {
+		if !res.Success {
+			err = fmt.Errorf("failed to get %d th call", i)
+			log.Error("failed to get ith call", zap.Int("index", i), zap.Error(err))
+			return nil, err
+		}
+	}
+
+	var res = new(model.ERC20Token)
+
+	err = contracts.ABIs[contracts.ContractTypeERC20].UnpackIntoInterface(&res.Decimals, "decimals", results[0].ReturnData)
+	if err != nil {
+		log.Error("failed to unpack erc20 decimals result", zap.String("address", address.String()), zap.Error(err))
+		return nil, err
+	}
+
+	err = contracts.ABIs[contracts.ContractTypeERC20].UnpackIntoInterface(&res.Symbol, "symbol", results[1].ReturnData)
+	if err != nil {
+		log.Error("failed to unpack erc20 symbol result", zap.String("address", address.String()), zap.Error(err))
+		return nil, err
+	}
+
+	err = contracts.ABIs[contracts.ContractTypeERC20].UnpackIntoInterface(&res.Name, "name", results[2].ReturnData)
+	if err != nil {
+		log.Error("failed to unpack erc20 name result", zap.String("address", address.String()), zap.Error(err))
+		return nil, err
+	}
+
+	return res, nil
 }

@@ -28,10 +28,10 @@ func NewNodeClientsWithEndpoints(endpoints []string) (*NodeClient, error) {
 	}, nil
 }
 
-func (c *NodeClient) Client() *ethclient.Client {
-	if len(c.ethClients) == 0 {
+func (n *NodeClient) Client() *ethclient.Client {
+	if len(n.ethClients) == 0 {
 		return nil
 	}
 	rand.NewSource(time.Now().Unix())
-	return c.ethClients[rand.Intn(len(c.ethClients))]
+	return n.ethClients[rand.Intn(len(n.ethClients))]
 }

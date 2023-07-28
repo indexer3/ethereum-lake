@@ -57,10 +57,12 @@ func (n *NodeClient) Call(ctx context.Context, callParam CallParam) ([]byte, err
 
 	var (
 		_res        string
-		blockNumber string
+		blockNumber string = "latest"
 	)
 
-	blockNumber = lo.If[string](callParam.BlockNumber == nil, "latest").Else(hexutil.EncodeBig(callParam.BlockNumber))
+	if callParam.BlockNumber != nil {
+		blockNumber = hexutil.EncodeBig(callParam.BlockNumber)
+	}
 
 	err := cli.Client().CallContext(ctx, &_res, "eth_call", callParam, blockNumber)
 	if err != nil {

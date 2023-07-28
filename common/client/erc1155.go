@@ -2,6 +2,7 @@ package client
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
@@ -12,13 +13,18 @@ import (
 )
 
 func (n *NodeClient) IsERC1155(ctx context.Context, address common.Address) (bool, error) {
+	c := n.Client()
+	if c == nil {
+		return false, fmt.Errorf("no available client")
+	}
+
 	calldata, err := contracts.ABIs[contracts.ContractTypeERC1155].Pack("supportsInterface", constant.ERC1155InterfaceID)
 	if err != nil {
 		log.Error("failed to pack supportsInterface", zap.Error(err))
 		return false, err
 	}
 
-	result, err := n.Client().CallContract(ctx, ethereum.CallMsg{
+	result, err := c.CallContract(ctx, ethereum.CallMsg{
 		To:   &address,
 		Data: calldata,
 	}, nil)
