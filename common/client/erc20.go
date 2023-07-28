@@ -20,9 +20,8 @@ func (n *NodeClient) AggregatedERC20Token(ctx context.Context, address common.Ad
 		Target:       address,
 		AllowFailure: false,
 	}
-	n.mu.RLock()
-	defer n.mu.RUnlock()
-	symbolCall.CallData, err = n.contractAbis[contracts.ContractTypeERC20].Pack("symbol")
+
+	symbolCall.CallData, err = contracts.ABIs[contracts.ContractTypeERC20].Pack("symbol")
 	if err != nil {
 		return nil, err
 	}
@@ -33,7 +32,7 @@ func (n *NodeClient) AggregatedERC20Token(ctx context.Context, address common.Ad
 		Target:       address,
 		AllowFailure: false,
 	}
-	totalSupplyCall.CallData, err = n.contractAbis[contracts.ContractTypeERC20].Pack("totalSupply")
+	totalSupplyCall.CallData, err = contracts.ABIs[contracts.ContractTypeERC20].Pack("totalSupply")
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +42,7 @@ func (n *NodeClient) AggregatedERC20Token(ctx context.Context, address common.Ad
 		Target:       address,
 		AllowFailure: false,
 	}
-	decimalsCall.CallData, err = n.contractAbis[contracts.ContractTypeERC20].Pack("decimals")
+	decimalsCall.CallData, err = contracts.ABIs[contracts.ContractTypeERC20].Pack("decimals")
 	if err != nil {
 		return nil, err
 	}
@@ -69,17 +68,17 @@ func (n *NodeClient) AggregatedERC20Token(ctx context.Context, address common.Ad
 	erc20Token.ContractAddress = address
 
 	var symbol string
-	err = n.contractAbis[contracts.ContractTypeERC20].UnpackIntoInterface(&symbol, "symbol", results[0].ReturnData)
+	err = contracts.ABIs[contracts.ContractTypeERC20].UnpackIntoInterface(&symbol, "symbol", results[0].ReturnData)
 	if err != nil {
 		return nil, err
 	}
 	var totalSupply *big.Int
-	err = n.contractAbis[contracts.ContractTypeERC20].UnpackIntoInterface(&totalSupply, "totalSupply", results[1].ReturnData)
+	err = contracts.ABIs[contracts.ContractTypeERC20].UnpackIntoInterface(&totalSupply, "totalSupply", results[1].ReturnData)
 	if err != nil {
 		return nil, err
 	}
 	var decimals uint8
-	err = n.contractAbis[contracts.ContractTypeERC20].UnpackIntoInterface(&decimals, "decimals", results[2].ReturnData)
+	err = contracts.ABIs[contracts.ContractTypeERC20].UnpackIntoInterface(&decimals, "decimals", results[2].ReturnData)
 	if err != nil {
 		return nil, err
 	}
@@ -92,7 +91,7 @@ func (n *NodeClient) AggregatedERC20Token(ctx context.Context, address common.Ad
 }
 
 func (n *NodeClient) ERC20Symbol(ctx context.Context, address common.Address) (string, error) {
-	_calldata, err := n.contractAbis[contracts.ContractTypeERC20].Pack("symbol")
+	_calldata, err := contracts.ABIs[contracts.ContractTypeERC20].Pack("symbol")
 	if err != nil {
 		return "", err
 	}
@@ -106,7 +105,7 @@ func (n *NodeClient) ERC20Symbol(ctx context.Context, address common.Address) (s
 	}
 
 	var symbol string
-	err = n.contractAbis[contracts.ContractTypeERC20].UnpackIntoInterface(&symbol, "symbol", data)
+	err = contracts.ABIs[contracts.ContractTypeERC20].UnpackIntoInterface(&symbol, "symbol", data)
 	if err != nil {
 		return "", err
 	}
@@ -115,7 +114,7 @@ func (n *NodeClient) ERC20Symbol(ctx context.Context, address common.Address) (s
 }
 
 func (n *NodeClient) ERC20TotalSupply(ctx context.Context, address common.Address) (*big.Int, error) {
-	_calldata, err := n.contractAbis[contracts.ContractTypeERC20].Pack("totalSupply")
+	_calldata, err := contracts.ABIs[contracts.ContractTypeERC20].Pack("totalSupply")
 	if err != nil {
 		return nil, err
 	}
@@ -129,7 +128,7 @@ func (n *NodeClient) ERC20TotalSupply(ctx context.Context, address common.Addres
 	}
 
 	totalSupply := new(big.Int)
-	err = n.contractAbis[contracts.ContractTypeERC20].UnpackIntoInterface(&totalSupply, "totalSupply", data)
+	err = contracts.ABIs[contracts.ContractTypeERC20].UnpackIntoInterface(&totalSupply, "totalSupply", data)
 	if err != nil {
 		return nil, err
 	}
@@ -138,7 +137,7 @@ func (n *NodeClient) ERC20TotalSupply(ctx context.Context, address common.Addres
 }
 
 func (n *NodeClient) ERC20Decimals(ctx context.Context, address common.Address) (uint8, error) {
-	_calldata, err := n.contractAbis[contracts.ContractTypeERC20].Pack("decimals")
+	_calldata, err := contracts.ABIs[contracts.ContractTypeERC20].Pack("decimals")
 	if err != nil {
 		return 0, err
 	}
@@ -152,7 +151,7 @@ func (n *NodeClient) ERC20Decimals(ctx context.Context, address common.Address) 
 	}
 
 	var decimals uint8
-	err = n.contractAbis[contracts.ContractTypeERC20].UnpackIntoInterface(&decimals, "decimals", data)
+	err = contracts.ABIs[contracts.ContractTypeERC20].UnpackIntoInterface(&decimals, "decimals", data)
 	if err != nil {
 		return 0, err
 	}
@@ -161,7 +160,7 @@ func (n *NodeClient) ERC20Decimals(ctx context.Context, address common.Address) 
 }
 
 func (n *NodeClient) ERC20Balance(ctx context.Context, tokenAddress, accountAddress common.Address) (*big.Int, error) {
-	_calldata, err := n.contractAbis[contracts.ContractTypeERC20].Pack("balanceOf", accountAddress)
+	_calldata, err := contracts.ABIs[contracts.ContractTypeERC20].Pack("balanceOf", accountAddress)
 	if err != nil {
 		return nil, err
 	}
@@ -175,7 +174,7 @@ func (n *NodeClient) ERC20Balance(ctx context.Context, tokenAddress, accountAddr
 	}
 
 	var balance *big.Int
-	err = n.contractAbis[contracts.ContractTypeERC20].UnpackIntoInterface(&balance, "balanceOf", data)
+	err = contracts.ABIs[contracts.ContractTypeERC20].UnpackIntoInterface(&balance, "balanceOf", data)
 	if err != nil {
 		return nil, err
 	}

@@ -79,7 +79,7 @@ func (e *Engine) Start(ctx context.Context) error {
 								continue
 							}
 
-							e.cache.Set(taskIndex.BlockNumber.String(), blockBytes)
+							_ = e.cache.Set(taskIndex.BlockNumber.String(), blockBytes)
 						}
 
 						if taskIndex.TxHash != "" {
@@ -97,7 +97,7 @@ func (e *Engine) Start(ctx context.Context) error {
 								continue
 							}
 
-							e.cache.Set(taskIndex.TxHash, txBytes)
+							_ = e.cache.Set(taskIndex.TxHash, txBytes)
 						}
 
 						go utils.Recoverable(func() {

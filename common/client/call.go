@@ -26,9 +26,7 @@ func (n *NodeClient) AggregatedCalls(ctx context.Context, calls []multicall.Mult
 		return nil, fmt.Errorf("no client available")
 	}
 
-	n.mu.RLock()
-	defer n.mu.Unlock()
-	calldata, err := n.contractAbis[contracts.ContractTypeMulticall].Pack("aggregate3", calls)
+	calldata, err := contracts.ABIs[contracts.ContractTypeMulticall].Pack("aggregate3", calls)
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +42,7 @@ func (n *NodeClient) AggregatedCalls(ctx context.Context, calls []multicall.Mult
 	}
 
 	var results []multicall.Multicall3Result
-	if err := n.contractAbis[contracts.ContractTypeMulticall].UnpackIntoInterface(&results, "aggregate3", res); err != nil {
+	if err := contracts.ABIs[contracts.ContractTypeMulticall].UnpackIntoInterface(&results, "aggregate3", res); err != nil {
 		return nil, err
 	}
 

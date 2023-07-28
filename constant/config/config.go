@@ -21,6 +21,11 @@ const (
 	PostgresPassword       = "postgres-password"
 	PostgresBatchWriteSize = "postgres-batch-write-size"
 
+	RPCMaxRetry = "rpc-max-retry"
+
+	MetricsCollectorURL    = "metrics-collector-url"
+	MetricsCollectInterval = "metrics-collect-interval"
+
 	StartCursor     = "start-cursor"
 	EndCursor       = "end-cursor"
 	TaskChannelSize = "task-channel-size"
