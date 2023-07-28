@@ -5,7 +5,7 @@ All you need to do is changing the destination endpoints like `MySQL` / `Postgre
 
 
 ### 
-[![Test](https://github.com/indexer3/ethereum-lake/actions/workflows/lint-and-test.yml/badge.svg?branch=main)](https://github.com/indexer3/ethereum-lake/actions/workflows/lint-and-test.yml)
+[![Test](https://github.com/indexer3/ethereum-lake/actions/workflows/lint-and-test.yaml/badge.svg?branch=main)](https://github.com/indexer3/ethereum-lake/actions/workflows/lint-and-test.yml)
 [![GoDoc](https://godoc.org/github.com/indexer3/ethereum-lake?status.png)](https://godoc.org/github.com/indexer3/ethereum-lake)
 [![GoReportCard](https://goreportcard.com/badge/github.com/indexer3/ethereum-lake)](https://goreportcard.com/report/github.com/indexer3/ethereum-lake)
 
