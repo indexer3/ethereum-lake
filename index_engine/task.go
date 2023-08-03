@@ -1,4 +1,4 @@
-package engine
+package index_engine
 
 import (
 	"context"
