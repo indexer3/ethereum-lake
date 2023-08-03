@@ -2,18 +2,13 @@ package contracts
 
 import (
 	"github.com/ethereum/go-ethereum/accounts/abi"
+	one_inch "github.com/indexer3/ethereum-lake/contracts/1inch"
 	"github.com/indexer3/ethereum-lake/contracts/erc1155"
 	"github.com/indexer3/ethereum-lake/contracts/erc20"
 	"github.com/indexer3/ethereum-lake/contracts/erc721"
 	"github.com/indexer3/ethereum-lake/contracts/multicall"
-	"github.com/indexer3/ethereum-lake/contracts/one_inch_oracle/one_inch_oracle"
 	"github.com/indexer3/ethereum-lake/contracts/opensea/seaport"
-	"github.com/indexer3/ethereum-lake/contracts/uniswap/uniswap_v2_factory"
-	"github.com/indexer3/ethereum-lake/contracts/uniswap/uniswap_v2_pair"
-	"github.com/indexer3/ethereum-lake/contracts/uniswap/uniswap_v3_factory"
-	"github.com/indexer3/ethereum-lake/contracts/uniswap/uniswap_v3_nft_position_manager"
-	"github.com/indexer3/ethereum-lake/contracts/uniswap/uniswap_v3_pool"
-	"github.com/indexer3/ethereum-lake/contracts/uniswap/uniswap_v3_router"
+	"github.com/indexer3/ethereum-lake/contracts/uniswap"
 )
 
 type ContractType string
@@ -44,13 +39,13 @@ func init() {
 	erc1155ABI, _ := erc1155.ERC1155MetaData.GetAbi()
 	multicallABI, _ := multicall.MulticallMetaData.GetAbi()
 	seaportABI, _ := seaport.SeaportMetaData.GetAbi()
-	oneInchOracleABI, _ := one_inch_oracle.OneInchOracleMetaData.GetAbi()
-	uniswapv2FactoryABI, _ := uniswap_v2_factory.UniswapV2FactoryMetaData.GetAbi()
-	uniswapv2PairABI, _ := uniswap_v2_pair.UniswapV2PairMetaData.GetAbi()
-	uniswapv3FactoryABI, _ := uniswap_v3_factory.UniswapV3FactoryMetaData.GetAbi()
-	uniswapv3PoolABI, _ := uniswap_v3_pool.UniswapV3PoolMetaData.GetAbi()
-	uniswapv3NFTPositionManagerABI, _ := uniswap_v3_nft_position_manager.UniswapV3NFTPositionManagerMetaData.GetAbi()
-	uniswapv3RouterABI, _ := uniswap_v3_router.UniswapV3RouterMetaData.GetAbi()
+	oneInchOracleABI, _ := one_inch.OneInchOracleMetaData.GetAbi()
+	uniswapv2FactoryABI, _ := uniswap.UniswapV2FactoryMetaData.GetAbi()
+	uniswapv2PairABI, _ := uniswap.UniswapV2PairMetaData.GetAbi()
+	uniswapv3FactoryABI, _ := uniswap.UniswapV3FactoryMetaData.GetAbi()
+	uniswapv3PoolABI, _ := uniswap.UniswapV3PoolMetaData.GetAbi()
+	uniswapv3NFTPositionManagerABI, _ := uniswap.UniswapV3NFTPositionManagerMetaData.GetAbi()
+	uniswapv3RouterABI, _ := uniswap.UniswapV3RouterMetaData.GetAbi()
 
 	ABIs[ContractTypeERC20] = erc20ABI
 	ABIs[ContractTypeERC721] = erc721ABI
