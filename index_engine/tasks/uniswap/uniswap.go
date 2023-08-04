@@ -8,7 +8,6 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/indexer3/ethereum-lake/common/cache"
 	"github.com/indexer3/ethereum-lake/common/log"
-	"github.com/indexer3/ethereum-lake/engine"
 	"github.com/indexer3/ethereum-lake/index_engine"
 	"go.uber.org/zap"
 )
@@ -26,7 +25,7 @@ func (t *UniswapTask) Name() string {
 	return "uniswap"
 }
 
-func (t *UniswapTask) Handle(ctx context.Context, taskIndex engine.DispatchTaskIndex) error {
+func (t *UniswapTask) Handle(ctx context.Context, taskIndex index_engine.DispatchTaskIndex) error {
 	var (
 		blockInfo *types.Block
 		txInfo    *types.Transaction
