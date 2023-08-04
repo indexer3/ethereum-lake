@@ -17,29 +17,29 @@ import (
 	"go.uber.org/zap"
 )
 
-type IEngine interface {
+type Engine interface {
 	Start(ctx context.Context) error
 	Stop(ctx context.Context)
 }
 
-type Engine struct {
+type IndexEngine struct {
 	dbs       []database.IDatabase
 	done      chan struct{}
 	startOnce sync.Once
 	cache     *cache.CommonCache
 	taskMu    sync.RWMutex
 	ethClient *client.NodeClient
-	Tasks     []ITask
+	Tasks     []Task
 	TaskIndex chan DispatchTaskIndex
 }
 
-func NewLakeEngine(dbs []database.IDatabase) IEngine {
+func NewLakeEngine(dbs []database.IDatabase) Engine {
 	cli, err := client.NewNodeClientsWithEndpoints(viper.GetStringSlice(config.RPCEndpoints))
 	if err != nil {
 		log.Fatal("failed to create node client", zap.Error(err))
 	}
 
-	return &Engine{
+	return &IndexEngine{
 		dbs:       dbs,
 		done:      make(chan struct{}, 1),
 		startOnce: sync.Once{},
@@ -49,13 +49,13 @@ func NewLakeEngine(dbs []database.IDatabase) IEngine {
 	}
 }
 
-func (e *Engine) AddTask(task ITask) {
+func (e *IndexEngine) AddTask(task Task) {
 	e.taskMu.Lock()
 	e.Tasks = append(e.Tasks, task)
 	e.taskMu.Unlock()
 }
 
-func (e *Engine) Start(ctx context.Context) error {
+func (e *IndexEngine) Start(ctx context.Context) error {
 	e.startOnce.Do(func() {
 		go func() {
 			for {
@@ -134,7 +134,7 @@ func (e *Engine) Start(ctx context.Context) error {
 	return nil
 }
 
-func (e *Engine) Stop(ctx context.Context) {
+func (e *IndexEngine) Stop(ctx context.Context) {
 	e.done <- struct{}{}
 	log.Info("engine stop signal sent")
 }

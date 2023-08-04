@@ -14,7 +14,7 @@ type DispatchTaskIndex struct {
 	TxHash  string           `json:"tx_hash,omitempty"`
 }
 
-type ITask interface {
+type Task interface {
 	Name() string
 	Handle(ctx context.Context, taskIndex DispatchTaskIndex) error
 }

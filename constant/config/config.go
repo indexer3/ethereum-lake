@@ -29,4 +29,6 @@ const (
 	StartCursor     = "start-cursor"
 	EndCursor       = "end-cursor"
 	TaskChannelSize = "task-channel-size"
+
+	ChainbaseSQLAPIKey = "chainbase-sql-api-key"
 )

@@ -8,5 +8,5 @@ const (
 	ServiceTypeRelayer
 )
 
-type IService interface {
+type Service interface {
 }

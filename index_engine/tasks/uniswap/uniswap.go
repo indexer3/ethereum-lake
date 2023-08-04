@@ -9,10 +9,11 @@ import (
 	"github.com/indexer3/ethereum-lake/common/cache"
 	"github.com/indexer3/ethereum-lake/common/log"
 	"github.com/indexer3/ethereum-lake/engine"
+	"github.com/indexer3/ethereum-lake/index_engine"
 	"go.uber.org/zap"
 )
 
-var _ engine.ITask = (*UniswapTask)(nil)
+var _ index_engine.Task = (*UniswapTask)(nil)
 
 type UniswapTask struct {
 }
@@ -59,5 +60,5 @@ func (t *UniswapTask) Handle(ctx context.Context, taskIndex engine.DispatchTaskI
 		}
 	}
 
-	return nil 
+	return nil
 }

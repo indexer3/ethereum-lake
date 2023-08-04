@@ -9,8 +9,10 @@ const (
 	NetworkBSC             Network = 56
 	NetworkEthereumClassic Network = 61
 	NetworkPolygon         Network = 137
+	NetworkBase            Network = 8453
 	NetworkArbitrumOne     Network = 42161
 	NetworkArbitrumNova    Network = 42170
+	NetworkBaseGoerli      Network = 84531
 )
 
 func ChainID(network Network) uint64 {
