@@ -7,8 +7,10 @@ require (
 	github.com/allegro/bigcache/v3 v3.1.0
 	github.com/cenkalti/backoff/v4 v4.2.0
 	github.com/ethereum/go-ethereum v1.12.0
+	github.com/go-resty/resty/v2 v2.7.0
 	github.com/prometheus/client_golang v1.16.0
 	github.com/samber/lo v1.38.1
+	github.com/shopspring/decimal v1.3.1
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.16.0
 	github.com/stretchr/testify v1.8.3
@@ -29,7 +31,6 @@ require (
 	github.com/go-faster/city v1.0.1 // indirect
 	github.com/go-faster/errors v0.6.1 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
-	github.com/go-resty/resty/v2 v2.7.0 // indirect
 	github.com/go-stack/stack v1.8.1 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/uuid v1.3.0 // indirect
@@ -53,7 +54,6 @@ require (
 	github.com/prometheus/procfs v0.10.1 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/shirou/gopsutil v3.21.11+incompatible // indirect
-	github.com/shopspring/decimal v1.3.1 // indirect
 	github.com/spf13/afero v1.9.5 // indirect
 	github.com/spf13/cast v1.5.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect

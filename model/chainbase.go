@@ -1,6 +1,6 @@
 package model
 
-type ChainbaseSQLTransaction = ChainbaseResponse[ChainbaseSQLResp[Transaction]]
+type ChainbaseSQLTransaction = ChainbaseResponse[ChainbaseSQLResp[[]Transaction]]
 
 type ChainbaseResponse[T any] struct {
 	Code    int    `json:"code"`
@@ -15,7 +15,7 @@ type ChainbaseSQLResp[T any] struct {
 	BytesRead int64              `json:"bytes_read"`
 	Elapsed   float64            `json:"elapsed"`
 	Meta      []ChainbaseSQLMeta `json:"meta"`
-	Result    []T                `json:"result"`
+	Result    T                  `json:"result"`
 	ErrMsg    string             `json:"err_msg"`
 }
 
