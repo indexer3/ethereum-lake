@@ -34,10 +34,10 @@ This project aims to solve the pain points and difficulties encountered when pul
 
 
 #### DeFi Compatiable   
-|Protocol|Compatiable||
-| -- | -- | -- |
-|AaveV2|✅||
-|AaveV3|✅||
+|Protocol|Compatiable|
+| -- | -- |
+|AaveV2|✅|
+|AaveV3|✅|
 |Curve|✅|
 |UniswapV2|✅|
 |UniswapV3|✅|
