@@ -16,6 +16,6 @@ func NewChainbaseClient() *ChainbaseCli {
 }
 
 func (c *ChainbaseCli) GetTransactionFeeds() (*model.ChainbaseSQLTransaction, error) {
-
+	
 	return nil, nil
 }

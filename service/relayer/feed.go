@@ -24,5 +24,5 @@ func NewFeedRelayer() *FeedRelayerImpl {
 }
 
 func (f *FeedRelayerImpl) Feeds(ctx context.Context, cursor *model.FeedCursor, limit int) ([]*model.Feed, error) {
-	
+	return nil, nil 
 }
