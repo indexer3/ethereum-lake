@@ -22,3 +22,14 @@ type ERC20Transfer struct {
 	To              common.Address `gorm:"column:to" ch:"to" json:"to,omitempty"`
 	Value           *big.Int       `gorm:"column:value" ch:"value" json:"value,omitempty"`
 }
+
+type ERC20TransferWithMetadata struct {
+	ERC20Token
+	BlockHash       common.Hash    `gorm:"column:block_hash" ch:"block_hash" json:"block_hash,omitempty"`
+	BlockNumber     uint64         `gorm:"column:block_number" ch:"block_number" json:"block_number,omitempty"`
+	TxHash          common.Hash    `gorm:"column:tx_hash" ch:"tx_hash" json:"tx_hash,omitempty"`
+	ContractAddress common.Address `gorm:"column:contract_address" ch:"contract_address" json:"contract_address,omitempty"`
+	From            common.Address `gorm:"column:from" ch:"from" json:"from,omitempty"`
+	To              common.Address `gorm:"column:to" ch:"to" json:"to,omitempty"`
+	Value           *big.Int       `gorm:"column:value" ch:"value" json:"value,omitempty"`
+}

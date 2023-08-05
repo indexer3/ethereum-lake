@@ -5,6 +5,7 @@ type Network int64
 
 const (
 	NetworkEthereum        Network = 1
+	NetworkGoerli          Network = 5
 	NetworkOptimism        Network = 10
 	NetworkBSC             Network = 56
 	NetworkEthereumClassic Network = 61

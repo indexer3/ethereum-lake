@@ -45,7 +45,7 @@ func NewLakeEngine(dbs []database.IDatabase) Engine {
 		startOnce: sync.Once{},
 		taskMu:    sync.RWMutex{},
 		ethClient: cli,
-		TaskIndex: make(chan DispatchTaskIndex, viper.GetInt(config.TaskChannelSize)),
+		TaskIndex: make(chan DispatchTaskIndex, viper.GetInt(config.TaskBufferSize)),
 	}
 }
 

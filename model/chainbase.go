@@ -1,5 +1,7 @@
 package model
 
+type ChainbaseSQLTransaction = ChainbaseResponse[ChainbaseSQLResp[Transaction]]
+
 type ChainbaseResponse[T any] struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`

@@ -9,4 +9,5 @@ const (
 )
 
 type Service interface {
+	
 }
