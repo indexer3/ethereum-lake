@@ -1,14 +1,20 @@
 package model
 
-type ChainbaseSQLTransaction = ChainbaseResponse[ChainbaseSQLResp[[]Transaction]]
+type SQLQueryTransaction = ChainbaseQueryResponse[SQLQueryResp[[]Transaction]]
 
-type ChainbaseResponse[T any] struct {
+type ChainbaseQueryRequest struct {
+	Query  string `json:"query"`
+	TaskId string `json:"task_id"`
+	Page   int32  `json:"page"`
+}
+
+type ChainbaseQueryResponse[T any] struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
 	Data    T      `json:"data"`
 }
 
-type ChainbaseSQLResp[T any] struct {
+type SQLQueryResp[T any] struct {
 	TaskId    string             `json:"task_id"`
 	Rows      int                `json:"rows"`
 	RowsRead  int                `json:"rows_read"`
