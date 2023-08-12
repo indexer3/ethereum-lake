@@ -1,8 +1,9 @@
 package model
 
 import (
+	"strconv"
+
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/core/types"
 )
 
@@ -41,13 +42,13 @@ func (e EventLog) ToEthereumLog() types.Log {
 		topics[3] = common.HexToHash(e.Topic3)
 	}
 
-	bn, _ := hexutil.DecodeBig(e.BlockNumber)
+	bn, _ := strconv.ParseUint(e.BlockNumber, 10, 64)
 
 	return types.Log{
 		Address:     common.HexToAddress(e.Address),
 		Topics:      topics,
 		Data:        common.Hex2Bytes(e.Data),
-		BlockNumber: bn.Uint64(),
+		BlockNumber: bn,
 		TxHash:      common.HexToHash(e.TransactionHash),
 		TxIndex:     e.TransactionIndex,
 		Index:       e.LogIndex,

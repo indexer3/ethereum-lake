@@ -5,7 +5,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var indexCommand = &cobra.Command{
-	Use:   constant.IndexCommandName,
-	Short: "index",
+var indexerCmd = &cobra.Command{
+	Use: constant.IndexerCommandName,
+}
+
+func AddIndexerCmd() {
+
 }

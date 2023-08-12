@@ -25,7 +25,7 @@ func (c *ChainbaseCli) GetEventLogsByTxHashes(ctx context.Context, network const
 
 	var resp model.SQLQueryEventLog
 
-	query := fmt.Sprintf(`select * from transaction_logs where %s.transaction_hash in (%s)`, network.String(), joinCommaQuery)
+	query := fmt.Sprintf(`select * from %s.transaction_logs where transaction_hash in (%s)`, network.String(), joinCommaQuery)
 
 	_, err := c.cli.R().SetContext(ctx).SetBody(model.ChainbaseQueryRequest{
 		Query: query,

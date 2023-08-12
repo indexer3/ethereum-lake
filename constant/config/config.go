@@ -1,8 +1,6 @@
 package config
 
 const (
-	RPCEndpoints = "rpc-endpoints"
-
 	ClickHouseHost           = "clickhouse-host"
 	ClickHousePort           = "clickhouse-port"
 	ClickHouseUser           = "clickhouse-user"
@@ -26,9 +24,10 @@ const (
 	MetricsCollectorURL    = "metrics-collector-url"
 	MetricsCollectInterval = "metrics-collect-interval"
 
-	StartCursor    = "start-cursor"
-	EndCursor      = "end-cursor"
-	TaskBufferSize = "task-buffer-size"
+	StartCursor = "start-cursor"
+	EndCursor   = "end-cursor"
+	// CatchUpSleepInterval is the interval in seconds to sleep when catching up
+	CatchUpSleepInterval = "catch-up-sleep-interval"
 
 	ChainbaseSQLAPIKey = "chainbase-sql-api-key"
 

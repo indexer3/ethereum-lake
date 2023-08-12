@@ -1,7 +1,6 @@
 package constant
 
 const (
-	LakeCommandName = "lake"
-
-	IndexCommandName = "index"
+	IndexerCommandName = "indexer"
+	RelayerCommandName = "relayer"
 )

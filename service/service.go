@@ -1,5 +1,7 @@
 package service
 
+import "context"
+
 type ServiceType int
 
 const (
@@ -9,5 +11,5 @@ const (
 )
 
 type Service interface {
-	
+	Start(ctx context.Context) error
 }
