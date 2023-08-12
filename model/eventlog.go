@@ -6,7 +6,7 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
 )
 
-type SQLQueryEventLog = ChainbaseQueryResponse[SQLQueryResp[EventLog]]
+type SQLQueryEventLog = ChainbaseQueryResponse[SQLQueryResp[[]EventLog]]
 
 type EventLog struct {
 	Address          string `json:"address,omitempty"`

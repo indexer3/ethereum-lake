@@ -6,9 +6,10 @@ import (
 )
 
 type FeedCursor struct {
-	AccountAddress   common.Address `json:"account_address"`
-	BlockNumber      uint64         `json:"block_number"`
-	TransactionIndex uint64         `json:"transaction_index"`
+	// Network          constant.Network `json:"network"`
+	// AccountAddress   common.Address   `json:"account_address"`
+	BlockNumber      uint64 `json:"block_number"`
+	TransactionIndex uint64 `json:"transaction_index"`
 }
 
 type Feed struct {

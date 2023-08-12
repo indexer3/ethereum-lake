@@ -9,11 +9,12 @@ import (
 	"github.com/indexer3/ethereum-lake/common/log"
 	"github.com/indexer3/ethereum-lake/constant"
 	"github.com/indexer3/ethereum-lake/model"
+	"github.com/samber/lo"
 	"go.uber.org/zap"
 	"golang.org/x/sync/errgroup"
 )
 
-func (c *ChainbaseCli) GetTransactionActivityFeeds(ctx context.Context, account common.Address, network constant.Network, limit uint64) ([]model.Transaction, error) {
+func (c *ChainbaseCli) GetTransactionActivityFeeds(ctx context.Context, network constant.Network, account common.Address, cursor *model.FeedCursor, limit uint64) ([]model.Transaction, error) {
 	if limit == 0 || limit > DefaultTransactionLimit {
 		limit = DefaultTransactionLimit
 	}
@@ -24,14 +25,25 @@ func (c *ChainbaseCli) GetTransactionActivityFeeds(ctx context.Context, account 
 		eg    errgroup.Group
 	)
 
+	fromAddressQuery := lo.Ternary(cursor == nil,
+		fmt.Sprintf(`select block_number, transaction_hash, transaction_index,
+					contract_address, 
+					from_address, 
+					to_address, 
+					gas, gas_used, input 
+					from %s.transactions where from_address = '%s' and block_number > %d and transaction_index > %d order by block_number desc limit %d`,
+			network.String(), account.String(), cursor.BlockNumber, cursor.TransactionIndex, limit*2),
+
+		fmt.Sprintf(`select block_number, transaction_hash, transaction_index,
+					contract_address, 
+					from_address, 
+					to_address, 
+					gas, gas_used, input 
+					from %s.transactions where from_address = '%s' order by block_number desc limit %d`, network.String(), account.String(), limit*2))
+
 	eg.Go(func() error {
 		_, err := c.cli.R().SetContext(ctx).SetResult(&resp1).SetBody(model.ChainbaseQueryRequest{
-			Query: fmt.Sprintf(`select block_number, transaction_hash, transaction_index,
-			contract_address, 
-			from_address, 
-			to_address, 
-			gas, gas_used, input 
-			from %s.transactions where from_address = '%s' order by block_number desc limit %d`, network.String(), account.String(), limit*2),
+			Query: fromAddressQuery,
 		}).Post("/v1/dw/query")
 		if err != nil {
 			log.Error("failed to get transaction from_address feeds", zap.String("account", account.String()), zap.Error(err))
@@ -46,14 +58,25 @@ func (c *ChainbaseCli) GetTransactionActivityFeeds(ctx context.Context, account 
 		return nil
 	})
 
-	eg.Go(func() error {
-		_, err := c.cli.R().SetContext(ctx).SetResult(&resp2).SetBody(model.ChainbaseQueryRequest{
-			Query: fmt.Sprintf(`select block_number, transaction_hash, transaction_index,
+	toAddressQuery := lo.Ternary(cursor == nil,
+		fmt.Sprintf(`select block_number, transaction_hash, transaction_index,
 			contract_address, 
 			from_address, 
 			to_address, 
 			gas, gas_used, input 
 			from %s.transactions where to_address = '%s' order by block_number desc limit %d`, network.String(), account.String(), limit*2),
+
+		fmt.Sprintf(`select block_number, transaction_hash, transaction_index,
+			contract_address, 
+			from_address, 
+			to_address, 
+			gas, gas_used, input 
+			from %s.transactions where to_address = '%s' and block_number > %d and transaction_index > %d order by block_number desc limit %d`,
+			network.String(), account.String(), cursor.BlockNumber, cursor.TransactionIndex, limit*2))
+
+	eg.Go(func() error {
+		_, err := c.cli.R().SetContext(ctx).SetResult(&resp2).SetBody(model.ChainbaseQueryRequest{
+			Query: toAddressQuery,
 		}).Post("/v1/dw/query")
 		if err != nil {
 			log.Error("failed to get transaction to_address feeds", zap.String("account", account.String()), zap.Error(err))
