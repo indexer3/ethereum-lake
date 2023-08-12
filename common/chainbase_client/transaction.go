@@ -9,7 +9,6 @@ import (
 	"github.com/indexer3/ethereum-lake/common/log"
 	"github.com/indexer3/ethereum-lake/constant"
 	"github.com/indexer3/ethereum-lake/model"
-	"github.com/samber/lo"
 	"go.uber.org/zap"
 	"golang.org/x/sync/errgroup"
 )
@@ -20,26 +19,44 @@ func (c *ChainbaseCli) GetTransactionActivityFeeds(ctx context.Context, network 
 	}
 
 	var (
-		resp1 model.SQLQueryTransaction
-		resp2 model.SQLQueryTransaction
-		eg    errgroup.Group
+		resp1            model.SQLQueryTransaction
+		resp2            model.SQLQueryTransaction
+		eg               errgroup.Group
+		fromAddressQuery string
+		toAddressQuery   string
 	)
 
-	fromAddressQuery := lo.Ternary(cursor == nil,
-		fmt.Sprintf(`select block_number, transaction_hash, transaction_index,
-					contract_address, 
-					from_address, 
-					to_address, 
-					gas, gas_used, input 
-					from %s.transactions where from_address = '%s' and block_number > %d and transaction_index > %d order by block_number desc limit %d`,
-			network.String(), account.String(), cursor.BlockNumber, cursor.TransactionIndex, limit*2),
+	if cursor != nil {
+		fromAddressQuery = fmt.Sprintf(`select block_number, transaction_hash, transaction_index,
+		contract_address, 
+		from_address, 
+		to_address, 
+		gas, gas_used, input 
+		from %s.transactions where from_address = '%s' and block_number < %d and transaction_index < %d order by block_number desc, transaction_index desc limit %d`,
+			network.String(), account.String(), cursor.BlockNumber, cursor.TransactionIndex, limit*2)
 
-		fmt.Sprintf(`select block_number, transaction_hash, transaction_index,
-					contract_address, 
-					from_address, 
-					to_address, 
-					gas, gas_used, input 
-					from %s.transactions where from_address = '%s' order by block_number desc limit %d`, network.String(), account.String(), limit*2))
+		toAddressQuery = fmt.Sprintf(`select block_number, transaction_hash, transaction_index,
+			contract_address, 
+			from_address, 
+			to_address, 
+			gas, gas_used, input 
+			from %s.transactions where to_address = '%s' and block_number < %d and transaction_index < %d order by block_number desc, transaction_index desc limit %d`,
+			network.String(), account.String(), cursor.BlockNumber, cursor.TransactionIndex, limit*2)
+	} else {
+		fromAddressQuery = fmt.Sprintf(`select block_number, transaction_hash, transaction_index,
+			contract_address, 
+			from_address, 
+			to_address, 
+			gas, gas_used, input 
+			from %s.transactions where from_address = '%s' order by block_number desc limit %d`, network.String(), account.String(), limit*2)
+
+		toAddressQuery = fmt.Sprintf(`select block_number, transaction_hash, transaction_index,
+			contract_address, 
+			from_address, 
+			to_address, 
+			gas, gas_used, input 
+			from %s.transactions where to_address = '%s' order by block_number desc limit %d`, network.String(), account.String(), limit*2)
+	}
 
 	eg.Go(func() error {
 		_, err := c.cli.R().SetContext(ctx).SetResult(&resp1).SetBody(model.ChainbaseQueryRequest{
@@ -57,22 +74,6 @@ func (c *ChainbaseCli) GetTransactionActivityFeeds(ctx context.Context, network 
 
 		return nil
 	})
-
-	toAddressQuery := lo.Ternary(cursor == nil,
-		fmt.Sprintf(`select block_number, transaction_hash, transaction_index,
-			contract_address, 
-			from_address, 
-			to_address, 
-			gas, gas_used, input 
-			from %s.transactions where to_address = '%s' order by block_number desc limit %d`, network.String(), account.String(), limit*2),
-
-		fmt.Sprintf(`select block_number, transaction_hash, transaction_index,
-			contract_address, 
-			from_address, 
-			to_address, 
-			gas, gas_used, input 
-			from %s.transactions where to_address = '%s' and block_number > %d and transaction_index > %d order by block_number desc limit %d`,
-			network.String(), account.String(), cursor.BlockNumber, cursor.TransactionIndex, limit*2))
 
 	eg.Go(func() error {
 		_, err := c.cli.R().SetContext(ctx).SetResult(&resp2).SetBody(model.ChainbaseQueryRequest{

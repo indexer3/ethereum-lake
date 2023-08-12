@@ -22,3 +22,9 @@ type ERC721Token struct {
 	Symbol          string         `gorm:"column:symbol" ch:"symbol" json:"symbol,omitempty"`
 	URI             string         `gorm:"column:uri" ch:"uri" json:"uri,omitempty"`
 }
+
+
+type ERC721TransferWithMetadata struct {
+	ERC721Token
+	
+}

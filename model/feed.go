@@ -13,6 +13,7 @@ type FeedCursor struct {
 }
 
 type Feed struct {
+	TxHash    common.Hash                 `json:"tx_hash"`
 	From      common.Address              `json:"from"`
 	To        common.Address              `json:"to"`
 	GasUsed   uint64                      `json:"gas_used"`

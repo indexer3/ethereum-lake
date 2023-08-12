@@ -33,3 +33,13 @@ type ERC20TransferWithMetadata struct {
 	To              common.Address `gorm:"column:to" ch:"to" json:"to,omitempty"`
 	Value           *big.Int       `gorm:"column:value" ch:"value" json:"value,omitempty"`
 }
+
+func (e *ERC20TransferWithMetadata) SetMeta(meta ERC20Token) *ERC20TransferWithMetadata {
+	e.ERC20Token = meta
+	return e
+}
+
+type TokenChanges struct {
+	TokenLoss []ERC20TransferWithMetadata `json:"token_loss"`
+	TokenGain []ERC20TransferWithMetadata `json:"token_gain"`
+}
