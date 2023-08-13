@@ -28,10 +28,10 @@ var (
 	aaveV2StakedTokenEthereum     = common.HexToAddress("0x4da27a545c0c5b758a6ba100e3a049001de870f5")
 	aaveV2StakedAbptTokenEthereum = common.HexToAddress("0xa1116930326d21fb917d5a27f1e9943a9595fb47")
 
-	aaveV2IncentivesPolygon      = common.HexToAddress("0x357D51124f59836DeD84c8a1730D72B749d8BC23")
-	aaveV2DataProviderPolygon    = common.HexToAddress("0x7551b5D2763519d4e37e8B81929D336De671d46d")
-	aaveV2LendingPoolPolygon     = common.HexToAddress("0x8dff5e27ea6b7ac08ebfdf9eb090f32ee9a30fcf")
-	aaveV2StakedTokenPolygon     = common.HexToAddress("0x4da27a545c0c5b758a6ba100e3a049001de870f5")
+	aaveV2IncentivesPolygon   = common.HexToAddress("0x357D51124f59836DeD84c8a1730D72B749d8BC23")
+	aaveV2DataProviderPolygon = common.HexToAddress("0x7551b5D2763519d4e37e8B81929D336De671d46d")
+	aaveV2LendingPoolPolygon  = common.HexToAddress("0x8dff5e27ea6b7ac08ebfdf9eb090f32ee9a30fcf")
+	// aaveV2StakedTokenPolygon     = common.HexToAddress("0x4da27a545c0c5b758a6ba100e3a049001de870f5")
 	aaveV2StakedAbptTokenPolygon = common.HexToAddress("0xa1116930326d21fb917d5a27f1e9943a9595fb47")
 )
 
@@ -72,8 +72,8 @@ func AaveV2StakedToken(network constant.Network) common.Address {
 	switch network {
 	case constant.NetworkEthereum:
 		return aaveV2StakedTokenEthereum
-	case constant.NetworkPolygon:
-		return aaveV2StakedTokenPolygon
+	// case constant.NetworkPolygon:
+	// 	return aaveV2StakedTokenPolygon
 	default:
 		return aaveV2StakedTokenEthereum
 	}

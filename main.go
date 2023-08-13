@@ -9,6 +9,9 @@ import (
 )
 
 func main() {
+	defer func() {
+		log.Sync()
+	}()
 	if err := cmd.EthereumLakeCommand().ExecuteContext(context.Background()); err != nil {
 		log.Error("failed to execute cmd", zap.Error(err))
 	}

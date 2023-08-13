@@ -48,5 +48,7 @@ func EthereumLakeCommand() *cobra.Command {
 		log.Error("failed to bind cmd flag", zap.Error(err))
 	}
 
+	
+
 	return ethereumLakeCommand
 }
