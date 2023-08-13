@@ -11,11 +11,11 @@ import (
 )
 
 func TestOnAaveV2(t *testing.T) {
-
 	ctx := context.Background()
 
 	polygonCli, err := NewNodeClientsWithEndpoints([]string{"https://rpc.ankr.com/polygon"})
 	require.NoError(t, err)
+
 	ethereumCli, err := NewNodeClientsWithEndpoints([]string{"https://rpc.ankr.com/eth"})
 	require.NoError(t, err)
 
