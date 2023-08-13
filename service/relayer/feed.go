@@ -140,17 +140,14 @@ func (f *FeedRelayerImpl) Feeds(ctx context.Context, network constant.Network, a
 		gasUsed, err := strconv.ParseUint(tx.GasUsed, 10, 64)
 		if err != nil {
 			log.Error("failed to parse gas used", zap.Error(err))
-			continue
 		}
 
 		gasPrice, err := strconv.ParseUint(tx.GasPrice, 10, 64)
 		if err != nil {
 			log.Error("failed to parse gas price", zap.Error(err))
-			continue
 		}
-
-		methodId := lo.Ternary[string](len(tx.Input) > 10, tx.Input[:10], "0x")
-
+		// https://github.com/samber/lo/issues/174
+		methodId := lo.If(len(tx.Input) < 10, "0x").ElseF(func() string { return tx.Input[:10] })
 		txHash := strings.ToLower(tx.TransactionHash)
 		tokenLoss := make([]model.ERC20TransferWithMetadata, 0)
 		tokenGain := make([]model.ERC20TransferWithMetadata, 0)
