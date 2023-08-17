@@ -19,7 +19,6 @@ import (
 var _ GMXRPC = (*NodeClient)(nil)
 
 type GMXRPC interface {
-	NetworkSupport
 	StakeEthReward(ctx context.Context, account common.Address, blockNumber *big.Int) (*decimal.Decimal, error)
 	StakeEsGmxReward(ctx context.Context, account common.Address, blockNumber *big.Int) (*decimal.Decimal, error)
 	StakeGlp(ctx context.Context, account common.Address, blockNumber *big.Int) (*decimal.Decimal, error)

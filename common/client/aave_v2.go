@@ -19,7 +19,6 @@ import (
 var _ AaveV2RPC = (*NodeClient)(nil)
 
 type AaveV2RPC interface {
-	NetworkSupport
 	AaveV2UnClaimedRewards(ctx context.Context, network constant.Network, account common.Address, blockNumber *big.Int) (*decimal.Decimal, error)
 	AaveV2StakedReward(ctx context.Context, network constant.Network, account common.Address, blockNumber *big.Int) (*decimal.Decimal, error)
 	AaveV2StakedTokenBalance(ctx context.Context, network constant.Network, account common.Address, blockNumber *big.Int) (*decimal.Decimal, error)
