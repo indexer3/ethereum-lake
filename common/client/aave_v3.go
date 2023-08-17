@@ -9,7 +9,7 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-type IAaveV3RPC interface {
+type AaveV3RPC interface {
 	NetworkSupport
 	AaveV3AllReservesTokens(ctx context.Context, blockNumber *big.Int) ([]model.ERC20Token, error)
 	AaveV3AssetBalance(ctx context.Context, account common.Address, asset common.Address, blockNumber *big.Int) (*decimal.Decimal, error)

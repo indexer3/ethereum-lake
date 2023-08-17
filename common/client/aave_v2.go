@@ -16,9 +16,9 @@ import (
 	"go.uber.org/zap"
 )
 
-var _ IAaveV2RPC = (*NodeClient)(nil)
+var _ AaveV2RPC = (*NodeClient)(nil)
 
-type IAaveV2RPC interface {
+type AaveV2RPC interface {
 	NetworkSupport
 	AaveV2UnClaimedRewards(ctx context.Context, network constant.Network, account common.Address, blockNumber *big.Int) (*decimal.Decimal, error)
 	AaveV2StakedReward(ctx context.Context, network constant.Network, account common.Address, blockNumber *big.Int) (*decimal.Decimal, error)

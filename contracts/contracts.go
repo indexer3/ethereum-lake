@@ -9,6 +9,7 @@ import (
 	"github.com/indexer3/ethereum-lake/contracts/erc1155"
 	"github.com/indexer3/ethereum-lake/contracts/erc20"
 	"github.com/indexer3/ethereum-lake/contracts/erc721"
+	"github.com/indexer3/ethereum-lake/contracts/gmx"
 	"github.com/indexer3/ethereum-lake/contracts/multicall"
 	"github.com/indexer3/ethereum-lake/contracts/opensea/seaport"
 	"github.com/indexer3/ethereum-lake/contracts/uniswap"
@@ -38,6 +39,10 @@ const (
 	ContractTypeAaveV2LendingPool  ContractType = "AaveV2LendingPool"
 	ContractTypeAaveV2StakedToken  ContractType = "AaveV2StakedToken"
 	ContractTypeAaveV2StakedAbpt   ContractType = "AaveV2StakedAbpt"
+
+	ContractTypeGMXVester        ContractType = "GMXVester"
+	ContractTypeGMXRewardTracker ContractType = "GMXRewardTracker"
+	ContractTypeGMXStakedGLP     ContractType = "GMXStakedGLP"
 )
 
 var ABIs = make(map[ContractType]*abi.ABI)
@@ -67,6 +72,10 @@ func init() {
 	aaveV2StakedTokenABI, _ := aave_staked_contract.AaveStakedContractMetaData.GetAbi()
 	aaveV2StakedAbptABI, _ := aave.AaveAbptStakedMetaData.GetAbi()
 
+	gmxVesterABI, _ := gmx.GmxVesterMetaData.GetAbi()
+	gmxRewardTracker, _ := gmx.GmxRewardTrackerMetaData.GetAbi()
+	gmxStakedGLP, _ := gmx.GmxStakedGlpMetaData.GetAbi()
+
 	ABIs[ContractTypeERC20] = erc20ABI
 	ABIs[ContractTypeERC721] = erc721ABI
 	ABIs[ContractTypeERC1155] = erc1155ABI
@@ -90,4 +99,9 @@ func init() {
 	ABIs[ContractTypeAaveV2LendingPool] = aaveV2LendingPoolABI
 	ABIs[ContractTypeAaveV2StakedToken] = aaveV2StakedTokenABI
 	ABIs[ContractTypeAaveV2StakedAbpt] = aaveV2StakedAbptABI
+
+	ABIs[ContractTypeGMXVester] = gmxVesterABI
+	ABIs[ContractTypeGMXRewardTracker] = gmxRewardTracker
+	ABIs[ContractTypeGMXStakedGLP] = gmxStakedGLP
+
 }
