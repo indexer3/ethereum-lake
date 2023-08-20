@@ -13,10 +13,9 @@ create table if not exists logs
     block_number      numeric,
     transaction_index bigint,
     timestamp         timestamp with time zone,
-    primary key (transaction_hash, "index")
+    primary key (transaction_hash, index)
 );
 
-comment on table logs is 'Returns a box2d encapsulating the given Geometry.';
 
 alter table logs
     owner to user;
@@ -40,7 +39,8 @@ create index if not exists idx_logs_topic_second
     on logs (topic_second);
 
 create index if not exists idx_logs_order
-    on logs (block_number, transaction_index, "index");
+    on logs (block_number, transaction_index, index);
 
 create index if not exists idx_logs_address
-    on logs ("address");
+    on logs (address);
+

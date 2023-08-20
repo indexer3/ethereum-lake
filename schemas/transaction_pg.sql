@@ -24,8 +24,8 @@ create index if not exists idx_transactions_from_block_number
 create index if not exists idx_transactions_from_block_number
     on transactions ("from", block_number);
 
-create index if not exists idx_transactions_timestamp
-    on transactions (timestamp);
+create index if not exists idx_transactions_hash
+    on transactions ("hash");
 
 create index if not exists idx_transactions_order
     on transactions (block_number);
