@@ -87,4 +87,10 @@ func main() {
 
 
 
+## Contribution
+- Suggestions, comments (including criticisms) and contributions are welcome.
+- Please follow the PR/issue template provided to ensure that your contributions are clear and easy to understand. 
+
+## License 
+[MIT License](./LICENSE)
 
