@@ -10,13 +10,13 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-var _ database.IDatabase = (*MySQL)(nil)
+var _ database.Database = (*MySQL)(nil)
 
 type MySQL struct {
 	db *gorm.DB
 }
 
-func Open(ctx context.Context, connectionConfig database.ConnectionConfig) (database.IDatabase, error) {
+func Open(ctx context.Context, connectionConfig database.ConnectionConfig) (database.Database, error) {
 	return nil, nil
 }
 

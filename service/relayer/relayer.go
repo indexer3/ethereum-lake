@@ -7,6 +7,6 @@ import (
 	"github.com/indexer3/ethereum-lake/constant"
 )
 
-type IRelayerService[T any] interface {
+type RelayerService[T any] interface {
 	AccountPortfolio(ctx context.Context, account common.Address, network constant.Network) (T, error)
 }

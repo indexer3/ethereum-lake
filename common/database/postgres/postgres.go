@@ -10,13 +10,13 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-var _ database.IDatabase = (*Postgres)(nil)
+var _ database.Database = (*Postgres)(nil)
 
 type Postgres struct {
 	db *gorm.DB
 }
 
-func (p *Postgres) Open(ctx context.Context, connectionConfig database.ConnectionConfig) (database.IDatabase, error) {
+func (p *Postgres) Open(ctx context.Context, connectionConfig database.ConnectionConfig) (database.Database, error) {
 	return nil, nil
 }
 

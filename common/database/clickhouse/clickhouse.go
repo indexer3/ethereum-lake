@@ -15,7 +15,7 @@ import (
 	"go.uber.org/zap"
 )
 
-var _ database.IDatabase = (*ClickHouse)(nil)
+var _ database.Database = (*ClickHouse)(nil)
 
 type ClickHouse struct {
 	db driver.Conn

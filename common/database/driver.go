@@ -12,7 +12,7 @@ const (
 	MySQL      DatabaseType = "MYSQL"
 )
 
-type IDatabase interface {
+type Database interface {
 	BatchWrite(ctx context.Context, tableName string, chunks []any) error
 	Connection() any
 }
