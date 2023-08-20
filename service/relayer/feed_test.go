@@ -2,6 +2,7 @@ package relayer
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -21,5 +22,5 @@ func TestOnFetchFeed(t *testing.T) {
 		common.HexToAddress("0xc101c69340feb4d0c474bf8fc34f5266f3de8a15"), nil, 10)
 	require.NoError(t, err)
 
-	t.Log(feeds)
+	fmt.Println(feeds)
 }

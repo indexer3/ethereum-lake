@@ -31,7 +31,7 @@ func (c *ChainbaseCli) GetTransactionActivityFeeds(ctx context.Context, network 
 		contract_address, 
 		from_address, 
 		to_address, 
-		gas, gas_used, input 
+		gas, gas_used, gas_price, input 
 		from %s.transactions where from_address = '%s' and block_number < %d and transaction_index < %d order by block_number desc, transaction_index desc limit %d`,
 			network.String(), account.String(), cursor.BlockNumber, cursor.TransactionIndex, limit*2)
 
@@ -39,7 +39,7 @@ func (c *ChainbaseCli) GetTransactionActivityFeeds(ctx context.Context, network 
 			contract_address, 
 			from_address, 
 			to_address, 
-			gas, gas_used, input 
+			gas, gas_used, gas_price, input 
 			from %s.transactions where to_address = '%s' and block_number < %d and transaction_index < %d order by block_number desc, transaction_index desc limit %d`,
 			network.String(), account.String(), cursor.BlockNumber, cursor.TransactionIndex, limit*2)
 	} else {
@@ -47,14 +47,14 @@ func (c *ChainbaseCli) GetTransactionActivityFeeds(ctx context.Context, network 
 			contract_address, 
 			from_address, 
 			to_address, 
-			gas, gas_used, input 
+			gas, gas_used, gas_price, input 
 			from %s.transactions where from_address = '%s' order by block_number desc limit %d`, network.String(), account.String(), limit*2)
 
 		toAddressQuery = fmt.Sprintf(`select block_number, transaction_hash, transaction_index,
 			contract_address, 
 			from_address, 
 			to_address, 
-			gas, gas_used, input 
+			gas, gas_used, gas_price, input 
 			from %s.transactions where to_address = '%s' order by block_number desc limit %d`, network.String(), account.String(), limit*2)
 	}
 
