@@ -6,16 +6,16 @@ import (
 	"github.com/indexer3/ethereum-lake/common/client"
 )
 
-type CommonProcess struct {
+type CommonEthereumProcess struct {
 	nodeClient *client.NodeClient
 }
 
-func NewCommonProcess(nodeClient *client.NodeClient) *CommonProcess {
-	return &CommonProcess{
+func NewCommonProcess(nodeClient *client.NodeClient) *CommonEthereumProcess {
+	return &CommonEthereumProcess{
 		nodeClient: nodeClient,
 	}
 }
 
-func (c *CommonProcess) GetLatestBlock(ctx context.Context) (uint64, error) {
+func (c *CommonEthereumProcess) GetLatestBlock(ctx context.Context) (uint64, error) {
 	return c.nodeClient.Client().BlockNumber(ctx)
 }

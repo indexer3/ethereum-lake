@@ -15,15 +15,15 @@ var _ indexer.Process[[]model.Transaction] = (*TransactionIndexer)(nil)
 
 type TransactionIndexer struct {
 	NodeClient *client.NodeClient
-	*indexer.CommonProcess
+	*indexer.CommonEthereumProcess
 	handleTxFns []func(ctx context.Context, txs []model.Transaction) error
 }
 
 func NewTransactionIndexer(nodeClient *client.NodeClient, fns ...func(ctx context.Context, txs []model.Transaction) error) *TransactionIndexer {
 	return &TransactionIndexer{
-		NodeClient:    nodeClient,
-		CommonProcess: indexer.NewCommonProcess(nodeClient),
-		handleTxFns:   fns,
+		NodeClient:            nodeClient,
+		CommonEthereumProcess: indexer.NewCommonProcess(nodeClient),
+		handleTxFns:           fns,
 	}
 }
 
