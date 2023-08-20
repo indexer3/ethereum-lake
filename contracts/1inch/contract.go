@@ -17,6 +17,7 @@ var (
 	oneInchPriceOracleAddressBSC      = common.HexToAddress("0xfbD61B037C325b959c0F6A7e69D8f37770C2c550")
 )
 
+// ChainID
 func OneInchPriceOracle(network constant.Network) common.Address {
 	switch network {
 	case constant.NetworkEthereum:
