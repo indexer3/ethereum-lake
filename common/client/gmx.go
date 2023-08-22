@@ -36,7 +36,7 @@ func (n *NodeClient) StakeEthReward(ctx context.Context, account common.Address,
 		return nil, err
 	}
 
-	result, err := n.Client().CallContract(ctx, ethereum.CallMsg{
+	result, err := n.ETHClient().CallContract(ctx, ethereum.CallMsg{
 		To:   lo.ToPtr[common.Address](gmx.RewardTrackerSbfGmxAddress()),
 		Data: calldata,
 	}, blockNumber)
@@ -63,7 +63,7 @@ func (n *NodeClient) StakeEsGmxReward(ctx context.Context, account common.Addres
 		return nil, err
 	}
 
-	result, err := n.Client().CallContract(ctx, ethereum.CallMsg{
+	result, err := n.ETHClient().CallContract(ctx, ethereum.CallMsg{
 		To:   lo.ToPtr[common.Address](gmx.RewardTrackerSGMXAddress()),
 		Data: calldata,
 	}, blockNumber)
@@ -90,7 +90,7 @@ func (n *NodeClient) StakeGlp(ctx context.Context, account common.Address, block
 		return nil, err
 	}
 
-	result, err := n.Client().CallContract(ctx, ethereum.CallMsg{
+	result, err := n.ETHClient().CallContract(ctx, ethereum.CallMsg{
 		To:   lo.ToPtr[common.Address](gmx.StakedGlpAddress()),
 		Data: calldata,
 	}, blockNumber)
@@ -117,7 +117,7 @@ func (n *NodeClient) StakeGlpRewardEth(ctx context.Context, account common.Addre
 		return nil, err
 	}
 
-	result, err := n.Client().CallContract(ctx, ethereum.CallMsg{
+	result, err := n.ETHClient().CallContract(ctx, ethereum.CallMsg{
 		To:   lo.ToPtr[common.Address](gmx.RewardTrackerGlpAddress()),
 		Data: calldata,
 	}, blockNumber)
@@ -144,7 +144,7 @@ func (n *NodeClient) StakeGmx(ctx context.Context, account common.Address, block
 		return nil, err
 	}
 
-	result, err := n.Client().CallContract(ctx, ethereum.CallMsg{
+	result, err := n.ETHClient().CallContract(ctx, ethereum.CallMsg{
 		To:   lo.ToPtr[common.Address](gmx.RewardTrackerSGMXAddress()),
 		Data: calldata,
 	}, blockNumber)
@@ -171,7 +171,7 @@ func (n *NodeClient) StakeEsGmx(ctx context.Context, account common.Address, blo
 		return nil, err
 	}
 
-	result, err := n.Client().CallContract(ctx, ethereum.CallMsg{
+	result, err := n.ETHClient().CallContract(ctx, ethereum.CallMsg{
 		To:   lo.ToPtr[common.Address](gmx.RewardTrackerSGMXAddress()),
 		Data: calldata,
 	}, blockNumber)

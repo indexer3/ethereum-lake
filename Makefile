@@ -9,7 +9,7 @@ build:
 
 lint: 
 	go mod tidy 
-	golangci-lint run --max-same-issues=0 --fix
+	golangci-lint run --max-same-issues=0 --fix ./...
 
 test: 
 	go test --cover ./...

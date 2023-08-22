@@ -30,7 +30,7 @@ func NewNodeClientsWithEndpoints(endpoints []string) (*NodeClient, error) {
 	}, nil
 }
 
-func (n *NodeClient) Client() *ethclient.Client {
+func (n *NodeClient) ETHClient() *ethclient.Client {
 	if len(n.ethClients) == 0 {
 		return nil
 	}

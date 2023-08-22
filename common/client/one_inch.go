@@ -51,7 +51,7 @@ func (n *NodeClient) TokenPrice(ctx context.Context, network constant.Network, t
 	// 	return nil, err
 	// }
 
-	resultBytes, err := n.Client().CallContract(ctx, ethereum.CallMsg{
+	resultBytes, err := n.ETHClient().CallContract(ctx, ethereum.CallMsg{
 		To:   lo.ToPtr(one_inch.OneInchPriceOracle(network)),
 		Data: getRateCall,
 	}, blockNumber)

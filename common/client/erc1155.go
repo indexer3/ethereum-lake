@@ -13,7 +13,7 @@ import (
 )
 
 func (n *NodeClient) IsERC1155(ctx context.Context, address common.Address) (bool, error) {
-	c := n.Client()
+	c := n.ETHClient()
 	if c == nil {
 		return false, fmt.Errorf("no available client")
 	}

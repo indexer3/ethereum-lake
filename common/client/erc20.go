@@ -190,7 +190,7 @@ func (n *NodeClient) ERC20Balance(ctx context.Context, tokenAddress, accountAddr
 }
 
 func (n *NodeClient) IsERC20(ctx context.Context, address common.Address) (bool, error) {
-	c := n.Client()
+	c := n.ETHClient()
 	if c == nil {
 		return false, fmt.Errorf("no client available")
 	}
@@ -275,7 +275,7 @@ func (n *NodeClient) ERC20Meta(ctx context.Context, address common.Address) (*mo
 		return nil, err
 	}
 
-	resultBytes, err := n.Client().CallContract(ctx, ethereum.CallMsg{
+	resultBytes, err := n.ETHClient().CallContract(ctx, ethereum.CallMsg{
 		To:   lo.ToPtr(multicall.Multicall3Address),
 		Data: calldata,
 	}, nil)

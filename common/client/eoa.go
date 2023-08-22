@@ -11,7 +11,7 @@ import (
 )
 
 func (n *NodeClient) IsContract(ctx context.Context, address common.Address) (bool, error) {
-	c := n.Client()
+	c := n.ETHClient()
 	if c == nil {
 		return false, fmt.Errorf("no available client")
 	}

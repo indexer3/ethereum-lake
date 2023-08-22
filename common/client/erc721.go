@@ -13,7 +13,7 @@ import (
 )
 
 func (n *NodeClient) IsERC721(ctx context.Context, address common.Address) (bool, error) {
-	code, err := n.Client().CodeAt(ctx, address, nil)
+	code, err := n.ETHClient().CodeAt(ctx, address, nil)
 	if err != nil {
 		log.Error("failed to get code", zap.String("address", address.String()), zap.Error(err))
 		return false, err

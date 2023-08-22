@@ -50,7 +50,7 @@ func (n *NodeClient) AaveV2UnClaimedRewards(ctx context.Context, network constan
 		return nil, err
 	}
 
-	result, err := n.Client().CallContract(ctx, ethereum.CallMsg{
+	result, err := n.ETHClient().CallContract(ctx, ethereum.CallMsg{
 		To:   lo.ToPtr[common.Address](aave.AaveV2Incentives(network)),
 		Data: calldata,
 	}, blockNumber)
@@ -78,7 +78,7 @@ func (n *NodeClient) AaveV2StakedReward(ctx context.Context, network constant.Ne
 		return nil, err
 	}
 
-	result, err := n.Client().CallContract(ctx, ethereum.CallMsg{
+	result, err := n.ETHClient().CallContract(ctx, ethereum.CallMsg{
 		To:   lo.ToPtr[common.Address](aave.AaveV2StakedToken(network)),
 		Data: calldata,
 	}, nil)

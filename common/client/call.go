@@ -21,7 +21,7 @@ type CallParam struct {
 }
 
 func (n *NodeClient) AggregatedCalls(ctx context.Context, calls []multicall.Multicall3Call3) ([]multicall.Multicall3Result, error) {
-	cli := n.Client()
+	cli := n.ETHClient()
 	if cli == nil {
 		return nil, fmt.Errorf("no client available")
 	}
@@ -50,7 +50,7 @@ func (n *NodeClient) AggregatedCalls(ctx context.Context, calls []multicall.Mult
 }
 
 func (n *NodeClient) Call(ctx context.Context, callParam CallParam) ([]byte, error) {
-	cli := n.Client()
+	cli := n.ETHClient()
 	if cli == nil {
 		return nil, fmt.Errorf("no available client")
 	}

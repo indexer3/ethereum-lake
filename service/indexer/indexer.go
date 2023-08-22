@@ -17,5 +17,5 @@ func NewCommonProcess(nodeClient *client.NodeClient) *CommonEthereumProcess {
 }
 
 func (c *CommonEthereumProcess) GetLatestBlock(ctx context.Context) (uint64, error) {
-	return c.nodeClient.Client().BlockNumber(ctx)
+	return c.nodeClient.ETHClient().BlockNumber(ctx)
 }
