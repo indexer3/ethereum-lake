@@ -1,18 +1,18 @@
 package model
 
-type Block struct {
-	Timestamp     string             `json:"timestamp"`
-	BaseFeePerGas string             `json:"baseFeePerGas"`
-	GasLimit      string             `json:"gasLimit"`
-	Number        string             `json:"number"`
-	Difficulty    string             `json:"difficulty"`
-	Hash          string             `json:"hash"`
-	Miner         string             `json:"miner"`
-	Nonce         string             `json:"nonce"`
-	Transactions  []BlockTransaction `json:"transactions"`
+type RPCBlock struct {
+	Timestamp     string                `json:"timestamp"`
+	BaseFeePerGas string                `json:"baseFeePerGas"`
+	GasLimit      string                `json:"gasLimit"`
+	Number        string                `json:"number"`
+	Difficulty    string                `json:"difficulty"`
+	Hash          string                `json:"hash"`
+	Miner         string                `json:"miner"`
+	Nonce         string                `json:"nonce"`
+	Transactions  []RPCBlockTransaction `json:"transactions"`
 }
 
-type BlockTransaction struct {
+type RPCBlockTransaction struct {
 	BlockHash            string `json:"blockHash,omitempty"`
 	BlockNumber          string `json:"blockNumber,omitempty"`
 	From                 string `json:"from,omitempty"`
@@ -36,11 +36,14 @@ type BlockTransaction struct {
 	QueueOrigin   string `json:"queueOrigin,omitempty"`
 }
 
-func (b *Block) ToCommonTransactionList() ([]RawTransaction, error) {
+func (b *RPCBlock) ToCommonTransactionList() ([]RawTransaction, error) {
 
 	return nil, nil
 }
 
-func (b *Block) ToOptimismTransactionList() []RawOptimismTransaction {
+func (b *RPCBlock) ToOptimismTransactionList() []RawOptimismTransaction {
 	return nil
+}
+
+type Block struct {
 }

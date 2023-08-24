@@ -20,9 +20,15 @@ func TestOnPriceOracle(t *testing.T) {
 	wethInPolygonContractAddress := common.HexToAddress("0x7ceb23fd6bc0add59e62ac25578270cff1b9f619")
 	uniswapInPolygonTokenContractAddress := common.HexToAddress("0xb33eaad8d922b1083446dc23f610c2567fb5180f")
 
+	wethInBSCContractAddress := common.HexToAddress("0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c")
+	uniswapInBSCTokenContractAddress := common.HexToAddress("0xBf5140A22578168FD562DCcF235E5D43A02ce9B1")
+
 	ctx := context.Background()
 
 	polygonCli, err := NewNodeClientsWithEndpoints([]string{"https://rpc.ankr.com/polygon"})
+	require.NoError(t, err)
+
+	bscCli, err := NewNodeClientsWithEndpoints([]string{"https://bsc-dataseed1.binance.org/"})
 	require.NoError(t, err)
 
 	t.Run("test on ethereum token price", func(t *testing.T) {
@@ -49,4 +55,15 @@ func TestOnPriceOracle(t *testing.T) {
 		fmt.Println("polygon network: UNI price:", uniPrice)
 	})
 
+	t.Run("test on bsc token price", func(t *testing.T) {
+		wbnbPrice, err := bscCli.TokenPrice(ctx, constant.NetworkBSC, wethInBSCContractAddress, nil)
+		require.NoError(t, err)
+
+		fmt.Println("bsc network: WBNB price:", wbnbPrice)
+
+		uniPrice, err := bscCli.TokenPrice(ctx, constant.NetworkBSC, uniswapInBSCTokenContractAddress, nil)
+		require.NoError(t, err)
+
+		fmt.Println("bsc network: UNI price:", uniPrice)
+	})
 }

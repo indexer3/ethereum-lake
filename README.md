@@ -76,12 +76,11 @@ func main() {
 
 
 
-#### DeFi Compatiable   
+#### DeFi Td Compatiable   
 |Protocol|Compatiable|
-| -- | -- |
-| AaveV2 | ✅ |
-| AaveV3 | ✅ |
-| Curve | ✅ |
+| AaveV2 | x |
+| AaveV3 | x |
+| Curve | x |
 | UniswapV2 | ✅ |
 | UniswapV3 | ✅ |
 

@@ -27,7 +27,7 @@ func NewTransactionIndexer(nodeClient *client.NodeClient, fns ...func(ctx contex
 }
 
 func (t *TransactionIndexer) Fetch(ctx context.Context, curBlock uint64) ([]model.RawTransaction, error) {
-	var block model.Block
+	var block model.RPCBlock
 	err := t.NodeClient.ETHClient().Client().CallContext(ctx, &block, "eth_getBlockByNumber")
 	if err != nil {
 		log.Error("failed to get block from node", zap.Error(err))
