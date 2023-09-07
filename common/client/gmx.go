@@ -217,7 +217,7 @@ func (n *NodeClient) GmxVesterYield(ctx context.Context, account common.Address,
 		},
 	}
 
-	results, err := n.AggregatedCalls(ctx, multicallData)
+	results, err := n.AggregatedCalls(ctx, multicallData, blockNumber)
 	if err != nil {
 		log.Error("failed to aggregate call", zap.Error(err))
 		return nil, nil, err
@@ -279,7 +279,7 @@ func (n *NodeClient) GlpVesterYield(ctx context.Context, account common.Address,
 		},
 	}
 
-	results, err := n.AggregatedCalls(ctx, multicallData)
+	results, err := n.AggregatedCalls(ctx, multicallData, blockNumber)
 	if err != nil {
 		log.Error("failed to aggregate call", zap.Error(err))
 		return nil, nil, err

@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/ethereum/go-ethereum/common"
+	lakecommon "github.com/indexer3/ethereum-lake/common"
 	"github.com/indexer3/ethereum-lake/constant"
 	"github.com/stretchr/testify/require"
 )
@@ -31,28 +32,26 @@ func TestOnPriceOracle(t *testing.T) {
 	bscCli, err := NewNodeClientsWithEndpoints([]string{"https://bsc-dataseed1.binance.org/"})
 	require.NoError(t, err)
 
-	t.Run("test on ethereum token price", func(t *testing.T) {
-		wethPrice, err := ethCli.TokenPrice(ctx, constant.NetworkEthereum, wethInETHContractAddress, nil)
-		require.NoError(t, err)
+	wethPrice, err := ethCli.TokenPrice(ctx, constant.NetworkEthereum, wethInETHContractAddress, nil)
+	require.NoError(t, err)
 
-		fmt.Println("ethereum network: WETH price:", wethPrice)
+	fmt.Println("ethereum network: WETH price:", wethPrice)
 
-		uniPrice, err := ethCli.TokenPrice(ctx, constant.NetworkEthereum, uniswapInETHTokenContractAddress, nil)
-		require.NoError(t, err)
+	uniPrice, err := ethCli.TokenPrice(ctx, constant.NetworkEthereum, uniswapInETHTokenContractAddress, nil)
+	require.NoError(t, err)
 
-		fmt.Println("ethereum network: UNI price:", uniPrice)
-	})
+	fmt.Println("ethereum network: UNI price:", uniPrice)
 
 	t.Run("test on polygon token price", func(t *testing.T) {
-		wethPrice, err := polygonCli.TokenPrice(ctx, constant.NetworkPolygon, wethInPolygonContractAddress, nil)
+		polygonWethPrice, err := polygonCli.TokenPrice(ctx, constant.NetworkPolygon, wethInPolygonContractAddress, nil)
 		require.NoError(t, err)
 
-		fmt.Println("polygon network: WETH price:", wethPrice)
+		fmt.Println("polygon network: WETH price:", polygonWethPrice, " rate ", lakecommon.GetDiffPercent(wethPrice, polygonWethPrice))
 
-		uniPrice, err := polygonCli.TokenPrice(ctx, constant.NetworkPolygon, uniswapInPolygonTokenContractAddress, nil)
+		polygonUniPrice, err := polygonCli.TokenPrice(ctx, constant.NetworkPolygon, uniswapInPolygonTokenContractAddress, nil)
 		require.NoError(t, err)
 
-		fmt.Println("polygon network: UNI price:", uniPrice)
+		fmt.Println("polygon network: UNI price:", polygonUniPrice, " rate ", lakecommon.GetDiffPercent(uniPrice, polygonUniPrice))
 	})
 
 	t.Run("test on bsc token price", func(t *testing.T) {
@@ -61,9 +60,9 @@ func TestOnPriceOracle(t *testing.T) {
 
 		fmt.Println("bsc network: WBNB price:", wbnbPrice)
 
-		uniPrice, err := bscCli.TokenPrice(ctx, constant.NetworkBSC, uniswapInBSCTokenContractAddress, nil)
+		bnbUniPrice, err := bscCli.TokenPrice(ctx, constant.NetworkBSC, uniswapInBSCTokenContractAddress, nil)
 		require.NoError(t, err)
 
-		fmt.Println("bsc network: UNI price:", uniPrice)
+		fmt.Println("bsc network: UNI price:", bnbUniPrice, " rate ", lakecommon.GetDiffPercent(uniPrice, bnbUniPrice))
 	})
 }

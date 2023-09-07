@@ -1,0 +1,10 @@
+
+port: "8080"
+chainbase_api_key: ""
+network_rpc_config:
+  ethereum_rpc_url: "http://localhost:8545"
+  polygon_rpc_url: "http://localhost:8545"
+  arbitrum_rpc_url: "http://localhost:8545"
+  optimism_rpc_url: "http://localhost:8545"
+  bsc_rpc_url: "https://bsc-dataseed.binance.org"
+  base_rpc_url: "http://localhost:8545"

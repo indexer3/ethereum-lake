@@ -24,6 +24,7 @@ func TestOnAaveV2(t *testing.T) {
 	_ = morphoAddress
 
 	someoneAddress := common.HexToAddress("0x2728FB60405dF11B57407a9e78E48FA1cC98607F")
+	someAddress2 := common.HexToAddress("0xa976ea51b9ba3232706af125a92e32788dc08ddc")
 
 	t.Run("test on unclaimed rewards aave v2", func(t *testing.T) {
 		unclaimed, err := polygonCli.AaveV2UnClaimedRewards(ctx, constant.NetworkPolygon, curveAddress, nil)
@@ -37,4 +38,22 @@ func TestOnAaveV2(t *testing.T) {
 		fmt.Println(staked)
 	})
 
+	t.Run("test on health factor aave v2", func(t *testing.T) {
+		healthFactor, err := ethereumCli.AaveV2AccountHealthRate(ctx, constant.NetworkEthereum, someAddress2, nil)
+		require.NoError(t, err)
+		fmt.Println(healthFactor)
+	})
+
+	t.Run("test on user account data aave v2", func(t *testing.T) {
+		accountData, err := ethereumCli.AaveV2AccountData(ctx, constant.NetworkEthereum, someAddress2, nil)
+		require.NoError(t, err)
+		fmt.Printf("%+v", accountData)
+	})
+
+	t.Run("test on user account debt aave v2 usdt", func(t *testing.T) {
+		accountData, err := ethereumCli.AaveV2AccountDebt(ctx, constant.NetworkEthereum, someAddress2,
+			constant.USDContractAddress(constant.NetworkEthereum), nil)
+		require.NoError(t, err)
+		fmt.Printf("%+v", accountData)
+	})
 }

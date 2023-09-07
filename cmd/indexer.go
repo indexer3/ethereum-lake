@@ -8,7 +8,3 @@ import (
 var indexerCmd = &cobra.Command{
 	Use: constant.IndexerCommandName,
 }
-
-func AddIndexerCmd() {
-
-}

@@ -7,11 +7,10 @@ import (
 
 	"github.com/ClickHouse/clickhouse-go/v2"
 	"github.com/ClickHouse/clickhouse-go/v2/lib/driver"
+	"github.com/indexer3/ethereum-lake/common/config"
 	"github.com/indexer3/ethereum-lake/common/database"
 	"github.com/indexer3/ethereum-lake/common/log"
-	"github.com/indexer3/ethereum-lake/constant/config"
 	"github.com/samber/lo"
-	"github.com/spf13/viper"
 	"go.uber.org/zap"
 )
 
@@ -63,7 +62,7 @@ func Open(ctx context.Context, connectionConfig database.ConnectionConfig) (*Cli
 }
 
 func (c *ClickHouse) BatchWrite(ctx context.Context, tableName string, dataArr []any) error {
-	batchSize := viper.GetInt(config.ClickHouseBatchWriteSize)
+	batchSize := int(config.IndexerConf.ClickHouseConfig.BatchWriteSize)
 	chunks := lo.Chunk(dataArr, batchSize)
 
 	for _, chunk := range chunks {

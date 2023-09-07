@@ -3,9 +3,9 @@ package postgres
 import (
 	"context"
 
+	"github.com/indexer3/ethereum-lake/common/config"
 	"github.com/indexer3/ethereum-lake/common/database"
-	"github.com/indexer3/ethereum-lake/constant/config"
-	"github.com/spf13/viper"
+
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
@@ -21,7 +21,7 @@ func (p *Postgres) Open(ctx context.Context, connectionConfig database.Connectio
 }
 
 func (p *Postgres) BatchWrite(ctx context.Context, tableName string, chunks []any) error {
-	batchSize := viper.GetInt(config.PostgresBatchWriteSize)
+	batchSize := int(config.IndexerConf.PostgresConfig.BatchWriteSize)
 
 	return p.db.Clauses(clause.OnConflict{UpdateAll: true}).CreateInBatches(chunks, batchSize).Error
 }

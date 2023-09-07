@@ -20,7 +20,7 @@ type CallParam struct {
 	BlockNumber *big.Int       `json:"blockNumber"`
 }
 
-func (n *NodeClient) AggregatedCalls(ctx context.Context, calls []multicall.Multicall3Call3) ([]multicall.Multicall3Result, error) {
+func (n *NodeClient) AggregatedCalls(ctx context.Context, calls []multicall.Multicall3Call3, blockNumber *big.Int) ([]multicall.Multicall3Result, error) {
 	cli := n.ETHClient()
 	if cli == nil {
 		return nil, fmt.Errorf("no client available")
@@ -36,7 +36,7 @@ func (n *NodeClient) AggregatedCalls(ctx context.Context, calls []multicall.Mult
 		Data: calldata,
 	}
 
-	res, err := cli.CallContract(ctx, callMsg, nil)
+	res, err := cli.CallContract(ctx, callMsg, blockNumber)
 	if err != nil {
 		return nil, err
 	}

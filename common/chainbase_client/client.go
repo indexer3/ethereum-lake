@@ -2,8 +2,7 @@ package chainbase_client
 
 import (
 	"github.com/go-resty/resty/v2"
-	"github.com/indexer3/ethereum-lake/constant/config"
-	"github.com/spf13/viper"
+	"github.com/indexer3/ethereum-lake/common/config"
 )
 
 type ChainbaseCli struct {
@@ -19,6 +18,6 @@ const (
 func NewChainbaseClient() *ChainbaseCli {
 	return &ChainbaseCli{
 		cli: resty.New().SetBaseURL("https://api.chainbase.online").
-			SetHeader("x-api-key", viper.GetString(config.ChainbaseSQLAPIKey)),
+			SetHeader("x-api-key", config.RelayerConf.ChainbaseAPIKey),
 	}
 }

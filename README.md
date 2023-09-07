@@ -31,6 +31,8 @@ This project aims to solve the pain points and difficulties encountered when pul
 
 
 #### Use As A Client
+Requirement Go 1.20+
+
 ```shell
 go get github.com/indexer3/ethereum-lake
 ```
@@ -76,13 +78,24 @@ func main() {
 
 
 
-#### DeFi Td Compatiable   
-|Protocol|Compatiable|
-| AaveV2 | x |
-| AaveV3 | x |
-| Curve | x |
-| UniswapV2 | ✅ |
-| UniswapV3 | ✅ |
+#### DeFi Compatiable   
+| Protocol| Client Compatiable | Portfolio Compatiable | 
+| -- | -- | -- | 
+| AaveV2 | x | x | 
+| AaveV3 | x | x | 
+| Curve | x | x | 
+| Balancer | ✅ | x | 
+| Bancor | ✅ | x | 
+| Compound | ✅ | x | 
+| Convex | ✅ | x | 
+| UniswapV2 | x | x | 
+| UniswapV3 | x | x | 
+| GMX | ✅ | x | 
+| 1Inch | ✅ | x | 
+| Synthetix | ✅ | x | 
+| Stargate | ✅ | x | 
+| Tornado | ✅ | x | 
+| Yearn | ✅ | x | 
 
 
 
@@ -92,4 +105,10 @@ func main() {
 
 ## License 
 [MIT License](./LICENSE)
+
+
+## Donation  
+
+Account Address (Polygon Is Preferred): 0xc101c69340feb4d0c474bf8fc34f5266f3de8a15 
+
 

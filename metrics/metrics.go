@@ -6,6 +6,7 @@ import (
 	"github.com/indexer3/ethereum-lake/common/log"
 	"github.com/indexer3/ethereum-lake/common/utils"
 	"github.com/indexer3/ethereum-lake/constant/config"
+
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 

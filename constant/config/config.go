@@ -1,6 +1,8 @@
 package config
 
 const (
+	ConfigPathKey = "config-path"
+
 	ClickHouseHost           = "clickhouse-host"
 	ClickHousePort           = "clickhouse-port"
 	ClickHouseUser           = "clickhouse-user"

@@ -19,7 +19,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func (n *NodeClient) AggregatedERC20Token(ctx context.Context, address common.Address) (*model.ERC20Token, error) {
+func (n *NodeClient) AggregatedERC20Token(ctx context.Context, address common.Address, blockNumber *big.Int) (*model.ERC20Token, error) {
 	calls := make([]multicall.Multicall3Call3, 0)
 
 	var err error
@@ -56,7 +56,7 @@ func (n *NodeClient) AggregatedERC20Token(ctx context.Context, address common.Ad
 
 	calls = append(calls, decimalsCall)
 
-	results, err := n.AggregatedCalls(ctx, calls)
+	results, err := n.AggregatedCalls(ctx, calls, blockNumber)
 	if err != nil {
 		return nil, err
 	}

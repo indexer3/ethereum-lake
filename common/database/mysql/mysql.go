@@ -3,9 +3,9 @@ package mysql
 import (
 	"context"
 
+	"github.com/indexer3/ethereum-lake/common/config"
 	"github.com/indexer3/ethereum-lake/common/database"
-	"github.com/indexer3/ethereum-lake/constant/config"
-	"github.com/spf13/viper"
+
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
@@ -21,7 +21,7 @@ func Open(ctx context.Context, connectionConfig database.ConnectionConfig) (data
 }
 
 func (m *MySQL) BatchWrite(ctx context.Context, tableName string, chunks []any) error {
-	batchSize := viper.GetInt(config.MySQLBatchWriteSize)
+	batchSize := int(config.IndexerConf.MySQLConfig.BatchWriteSize)
 
 	return m.db.Clauses(clause.OnConflict{UpdateAll: true}).CreateInBatches(chunks, batchSize).Error
 }

@@ -9,8 +9,6 @@ import (
 )
 
 type AuraRPC interface {
-	NetworkSupport
-	AuraTokenRPC
 	AaveV3AuraLockedPosition(ctx context.Context, account common.Address, blockNumber *big.Int) (*decimal.Decimal, error)
 	AaveV3AuraLockedReward(ctx context.Context, account common.Address, blockNumber *big.Int) (*decimal.Decimal, error)
 	AaveV3AuraFarmingPool(ctx context.Context, contractAddress common.Address, blockNumber *big.Int) (common.Address, error)

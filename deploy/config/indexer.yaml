@@ -1,0 +1,42 @@
+indexer_name: "ethereum-logs-indexer"
+start_cursor: 1
+end_cursor: 0 # stream mode
+catch_up_sleep_interval_second: 10
+
+rpc:
+  rpc_max_retry: 10
+  rpc_retry_interval_second: 1
+  rpc_url: "http://localhost:8545"
+
+metrics:
+  enable: false
+  collect_port: "8081"
+  collect_interval_second: 10
+
+clickhouse: 
+  enable: false
+  host: ""
+  port: ""
+  user: ""
+  database: ""
+  batch_write_size: 100
+
+mysql:
+  enable: false
+  host: ""
+  port: ""
+  user: ""
+  password: ""
+  database: ""
+  batch_write_size: 100
+
+postgres:
+  enable: false
+  host: ""
+  port: ""
+  user: ""
+  password: ""
+  database: ""
+  batch_write_size: 100
+
+  
