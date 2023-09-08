@@ -81,7 +81,7 @@ func main() {
 #### DeFi Compatiable   
 | Protocol| Client Compatiable | Portfolio Compatiable | 
 | -- | -- | -- | 
-| AaveV2 | x | x | 
+| AaveV2 | ✅ | x | 
 | AaveV3 | x | x | 
 | Curve | x | x | 
 | Balancer | ✅ | x | 
