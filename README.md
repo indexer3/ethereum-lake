@@ -107,8 +107,4 @@ func main() {
 [MIT License](./LICENSE)
 
 
-## Donation  
-
-Account Address (Polygon Is Preferred): 0xc101c69340feb4d0c474bf8fc34f5266f3de8a15 
-
 
